@@ -6,7 +6,7 @@ namespace Backend.Repositories.ContactNumbers
     {
         Task<ICollection<ContactNumber>> GetContactNumbers(int contactId);
         Task<ContactNumber?> GetContactNumber(int contactId, int contactNumberId);
-        Task<int> AddContactNumber(int contactId, ContactNumber newContactNumber);
+        Task<int> AddContactNumber(ContactNumber newContactNumber);
         Task<bool> DeleteContactNumber(int contactId, int contactNumberId);
         Task<bool> UpdateContactNumber(ContactNumber updateContactNumber);
     }

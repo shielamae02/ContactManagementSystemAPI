@@ -12,7 +12,7 @@ namespace Backend.Repositories.ContactNumbers
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<int> AddContactNumber(int contactId, ContactNumber newContactNumber)
+        public async Task<int> AddContactNumber(ContactNumber newContactNumber)
         {
            
             _context.ContactNumbers.Add(newContactNumber);
@@ -58,7 +58,6 @@ namespace Backend.Repositories.ContactNumbers
 
             await _context.SaveChangesAsync();
             return true;
-
         }
     }
 }

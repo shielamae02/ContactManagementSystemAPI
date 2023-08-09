@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Entities;
+using Backend.Exceptions;
 using Backend.Models.Contacts;
 using Backend.Repositories.Contacts;
 
@@ -50,7 +51,7 @@ namespace Backend.Services.Contacts
             var result = await _contactRepository.UpdateContact(dbContact);
             if (!result)
             {
-                return null;
+                throw new UserUpdateFailedException("Contact update failed.Something went wrong while updating the contact.");
             }
 
             return _mapper.Map<ContactDto>(dbContact);
