@@ -1,4 +1,6 @@
-﻿using Backend.Services.Users;
+﻿using Backend.Exceptions;
+using Backend.Models.Auths;
+using Backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,8 +43,49 @@ namespace Backend.Controllers
             }
         }
 
-        //[HttpDelete]
-        //public async Tasl
+        [HttpDelete]
+        public async Task<IActionResult> DeleteUser()
+        {
+            try
+            {
+                var user = await _userService.DeleteUser(_userId);
+                if (!user)
+                {
+                    return NotFound("User not found.");
+                }
+                return Ok("Successfully deleted user.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Something went wrong.");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUser(UserRegisterDto updateUser)
+        {
+            try
+            {
+                var user = await _userService.UpdateUser(_userId, updateUser);
+                if (user is null)
+                {
+                    throw new UserUpdateFailedException("User update failed.");
+                }
+                return Ok(user);
+            }
+            catch (UserUpdateFailedException ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Something went wrong.");
+            }
+        }
 
     }
 }

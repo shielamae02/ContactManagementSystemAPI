@@ -55,7 +55,7 @@ namespace Backend.Services.ContactNumbers
             var result = await _contactNumberRepository.UpdateContactNumber(dbContactNumber);
             if (!result)
             {
-                throw new UserUpdateFailedException("Contact number update failed.Something went wrong while updating the contact number.");
+                throw new UserUpdateFailedException("Contact number update failed.");
             }
 
             return _mapper.Map<ContactNumberDto>(dbContactNumber);

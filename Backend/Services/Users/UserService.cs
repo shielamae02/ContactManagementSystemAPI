@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Entities;
+using Backend.Exceptions;
 using Backend.Models.Auths;
 using Backend.Repositories.Users;
 using System.Security.Claims;
@@ -53,7 +54,7 @@ namespace Backend.Services.Users
             var result = _contextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
             if (result is null)
             {
-                throw new Exception("User not found.");
+                throw new UserNotFoundException("User not found.");
             }
             var userClaims = result.Claims;
             var user = new User
@@ -73,7 +74,7 @@ namespace Backend.Services.Users
             var result = await _userRepository.UpdateUser(dbUser);
             if (!result)
             {
-                return null;
+                throw new UserUpdateFailedException("User update failed.");
             }
 
             return _mapper.Map<User>(dbUser);
