@@ -22,7 +22,7 @@ namespace Backend.Utils
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddHours(3),
+                expires: DateTime.Now.AddDays(1),
                 signingCredentials : credentials
             );
 
