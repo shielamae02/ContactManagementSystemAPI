@@ -1,4 +1,7 @@
-﻿namespace Backend.Entities
+﻿using System.ComponentModel.DataAnnotations;
+using System.Net;
+
+namespace Backend.Entities
 {
     public class Contact
     {

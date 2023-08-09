@@ -1,4 +1,8 @@
-﻿namespace Backend.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace Backend.Entities
 {
     public class Address
     {

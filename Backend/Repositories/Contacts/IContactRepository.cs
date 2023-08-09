@@ -1,4 +1,6 @@
-﻿namespace Backend.Repositories.Contacts
+﻿using Backend.Entities;
+
+namespace Backend.Repositories.Contacts
 {
     public interface IContactRepository
     {

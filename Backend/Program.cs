@@ -1,4 +1,5 @@
 using Backend.Data;
+using Backend.Repositories.Contacts;
 using Backend.Repositories.Users;
 using Backend.Services.Auths;
 using Backend.Services.Users;
@@ -49,6 +50,8 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
 
 builder.Services.AddHttpContextAccessor();
 
