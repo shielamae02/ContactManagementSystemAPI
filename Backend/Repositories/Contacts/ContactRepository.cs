@@ -1,5 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Entities;
+using Backend.Exceptions;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.Contacts
@@ -13,8 +15,8 @@ namespace Backend.Repositories.Contacts
             _context = context;
         }
 
-        public async Task<int> AddContact(int userId,Contact newContact)
-        {
+        public async Task<int> AddContact(Contact newContact)
+        { 
             _context.Contacts.Add(newContact);
             await _context.SaveChangesAsync();
             return newContact.Id;
@@ -34,7 +36,7 @@ namespace Backend.Repositories.Contacts
             return true;
         }
 
-        public async Task<IEnumerable<Contact>> GetContacts(int userId)
+        public async Task<ICollection<Contact>> GetContacts(int userId)
         {
             return await _context.Contacts
                 .Where(c => c.UserId == userId)
@@ -52,7 +54,7 @@ namespace Backend.Repositories.Contacts
                 .FirstOrDefaultAsync(c => c.Id == contactId);
         }
 
-        public async Task<bool> UpdateContact(int userId, Contact updateContact)
+        public async Task<bool> UpdateContact(Contact updateContact)
         {
             var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == updateContact.Id);
             if (contact is null)

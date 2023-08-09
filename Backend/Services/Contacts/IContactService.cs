@@ -7,8 +7,8 @@ namespace Backend.Services.Contacts
     {
         Task<ContactDto> GetContact(int userId, int contactId);
         Task<Contact> AddContact(int userId, AddContactDto newContact);
-        Task<IEnumerable<ContactDto>> GetContacts(int userId);
+        Task<ICollection<ContactDto>> GetContacts(int userId);
         Task<bool> DeleteContact(int userId, int contactId);
-        Task<ContactDto> UpdateContact(int contactId, UpdateContactDto updateContact);
+        Task<ContactDto> UpdateContact(int userId, int contactId, UpdateContactDto updateContact);
     }
 }

@@ -19,7 +19,8 @@ namespace Backend.Services.Contacts
         public async Task<Contact> AddContact(int userId,AddContactDto newContact)
         {
             var contact = _mapper.Map<Contact>(newContact);
-            contact.Id = await _contactRepository.AddContact(userId, contact);
+            contact.UserId = userId;
+            contact.Id = await _contactRepository.AddContact(contact);
             return contact;
         }
 
@@ -34,18 +35,19 @@ namespace Backend.Services.Contacts
             return _mapper.Map<ContactDto>(contact);
         }
 
-        public async Task<IEnumerable<ContactDto>> GetContacts(int userId)
+        public async Task<ICollection<ContactDto>> GetContacts(int userId)
         {
             var contacts = await _contactRepository.GetContacts(userId);
             return contacts.Select(c => _mapper.Map<ContactDto>(c)).ToList();
         }
 
-        public async Task<ContactDto> UpdateContact(int contactId, UpdateContactDto updatedContact)
+        public async Task<ContactDto> UpdateContact(int userId, int contactId, UpdateContactDto updatedContact)
         {
             var dbContact = _mapper.Map<Contact>(updatedContact);
+            dbContact.UserId = userId;
             dbContact.Id = contactId;
 
-            var result = await _contactRepository.UpdateContact(contactId, dbContact);
+            var result = await _contactRepository.UpdateContact(dbContact);
             if (!result)
             {
                 return null;

@@ -100,7 +100,8 @@ namespace Backend.Controllers
         {
             try
             {
-                var contact = await _contactService.UpdateContact(contactId, updatedContact);
+                var userId = await _userService.GetUserId();
+                var contact = await _contactService.UpdateContact(userId, contactId, updatedContact);
                 return Ok(contact);
             }
             catch (Exception ex)

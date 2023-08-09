@@ -34,7 +34,7 @@ namespace Backend.Entities
 
 
 
-        public IEnumerable<ContactNumber> ContactNumbers { get; set; } = new List<ContactNumber>();
-        public IEnumerable<Address> Addresses { get; set; } = new List<Address>();
+       public ICollection<ContactNumber> ContactNumbers { get; set; } = new List<ContactNumber>();
+       public ICollection<Address> Addresses { get; set; } = new List<Address>();
     }
 }
