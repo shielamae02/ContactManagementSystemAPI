@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
+using System.Text.Json.Serialization;
 
 namespace Backend.Entities
 {
@@ -7,6 +9,13 @@ namespace Backend.Entities
     {
         [Key]
         public int Id { get; set; }
+
+        [ForeignKey("UserId")]
+        [JsonIgnore]
+        public int UserId { get; set; }
+        [JsonIgnore]
+        public User User { get; set; }
+
 
         [Required]
         [MaxLength(50)]
@@ -25,7 +34,7 @@ namespace Backend.Entities
 
 
 
-        public ICollection<ContactNumber> ContactNumbers { get; set; } = new List<ContactNumber>();
-        public ICollection<Address> Addresses { get; set; } = new List<Address>();
+        public IEnumerable<ContactNumber> ContactNumbers { get; set; } = new List<ContactNumber>();
+        public IEnumerable<Address> Addresses { get; set; } = new List<Address>();
     }
 }

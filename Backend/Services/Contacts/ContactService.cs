@@ -16,36 +16,36 @@ namespace Backend.Services.Contacts
 
         }
 
-        public async Task<Contact> AddContact(AddContactDto newContact)
+        public async Task<Contact> AddContact(int userId,AddContactDto newContact)
         {
             var contact = _mapper.Map<Contact>(newContact);
-            contact.Id = await _contactRepository.AddContact(contact);
+            contact.Id = await _contactRepository.AddContact(userId, contact);
             return contact;
         }
 
-        public async Task<bool> DeleteContact(int id)
+        public async Task<bool> DeleteContact(int userId, int contactId)
         {
-            return await _contactRepository.DeleteContact(id);
+            return await _contactRepository.DeleteContact(userId, contactId);
         }
 
-        public async Task<ContactDto> GetContact(int id)
+        public async Task<ContactDto> GetContact(int userId, int contactId)
         {
-            var contact = await _contactRepository.GetContact(id);
+            var contact = await _contactRepository.GetContact(userId, contactId);
             return _mapper.Map<ContactDto>(contact);
         }
 
-        public async Task<IEnumerable<ContactDto>> GetContacts()
+        public async Task<IEnumerable<ContactDto>> GetContacts(int userId)
         {
-            var contacts = await _contactRepository.GetContacts();
+            var contacts = await _contactRepository.GetContacts(userId);
             return contacts.Select(c => _mapper.Map<ContactDto>(c)).ToList();
         }
 
-        public async Task<ContactDto> UpdateContact(int id, UpdateContactDto updatedContact)
+        public async Task<ContactDto> UpdateContact(int contactId, UpdateContactDto updatedContact)
         {
             var dbContact = _mapper.Map<Contact>(updatedContact);
-            dbContact.Id = id;
+            dbContact.Id = contactId;
 
-            var result = await _contactRepository.UpdateContact(dbContact);
+            var result = await _contactRepository.UpdateContact(contactId, dbContact);
             if (!result)
             {
                 return null;

@@ -4,10 +4,10 @@ namespace Backend.Repositories.Contacts
 {
     public interface IContactRepository
     {
-        Task<ICollection<Contact>> GetContacts();
-        Task<Contact> GetContact(int id);
-        Task<int> AddContact(Contact newContact);
-        Task<bool> UpdateContact(Contact updateContact);
-        Task<bool> DeleteContact(int id);
+        Task<IEnumerable<Contact>> GetContacts(int userId);
+        Task<Contact?> GetContact(int userId, int contactId);
+        Task<int> AddContact(int userId, Contact newContact);
+        Task<bool> UpdateContact(int userId, Contact updateContact);
+        Task<bool> DeleteContact(int userId, int contactId);
     }
 }
