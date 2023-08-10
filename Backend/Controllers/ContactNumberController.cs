@@ -58,7 +58,8 @@ namespace Backend.Controllers
         {
             try
             {
-                var contactNumber = await _contactNumberService.GetContactNumber(contactId, contactNumberId);
+                var userId = await _userService.GetUserId();
+                var contactNumber = await _contactNumberService.GetContactNumber(userId, contactId, contactNumberId);
                 if (contactNumber is null)
                 {
                     return NotFound("Contact number not found.");
@@ -137,7 +138,8 @@ namespace Backend.Controllers
         {
             try
             {
-                var contactNumber = await _contactNumberService.UpdateContactNumber(contactId, contactNumberId, updateContactNumber);
+                var userId = await _userService.GetUserId();
+                var contactNumber = await _contactNumberService.UpdateContactNumber(userId, contactId, contactNumberId, updateContactNumber);
                 return Ok(contactNumber);
             }
             catch (ContactNumberUpdateFailedException ex)

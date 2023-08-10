@@ -23,7 +23,7 @@ namespace Backend.Services.ContactNumbers
         public async Task<ContactNumber> AddContactNumber(int userId, int contactId, AddContactNumberDto newContactNumber)
         {
             var contact = await _contactRepository.GetContact(userId, contactId);
-            if(contact is null)
+            if (contact is null)
             {
                 throw new ContactNotFoundException("Contact not found.");
             }
@@ -33,7 +33,7 @@ namespace Backend.Services.ContactNumbers
             return contactNumber;
         }
 
-        public async Task<bool> DeleteContactNumber(int userId,int contactId, int contactNumberId)
+        public async Task<bool> DeleteContactNumber(int userId, int contactId, int contactNumberId)
         {
             var contactNumber = await _contactNumberRepository.DeleteContactNumber(userId, contactId, contactNumberId);
             if (!contactNumber)
@@ -43,9 +43,9 @@ namespace Backend.Services.ContactNumbers
             return contactNumber;
         }
 
-        public async Task<ContactNumberDto> GetContactNumber(int contactId, int contactNumberId)
+        public async Task<ContactNumberDto> GetContactNumber(int userId,int contactId, int contactNumberId)
         {
-            var contactNumber = await _contactNumberRepository.GetContactNumber(contactId, contactNumberId);
+            var contactNumber = await _contactNumberRepository.GetContactNumber(userId, contactId, contactNumberId);
             if (contactNumber is null)
             {
                 throw new ContactNumberNotFoundException("Contact number not found.");
@@ -63,9 +63,9 @@ namespace Backend.Services.ContactNumbers
             return contactNumbers.Select(c => _mapper.Map<ContactNumberDto>(c)).ToList();
         }
 
-        public async Task<ContactNumberDto> UpdateContactNumber(int contactId, int contactNumberId, UpdateContactNumberDto updateContactNumber)
+        public async Task<ContactNumberDto> UpdateContactNumber(int userId, int contactId, int contactNumberId, UpdateContactNumberDto updateContactNumber)
         {
-            var db = await _contactNumberRepository.GetContactNumber(contactId, contactNumberId);
+            var db = await _contactNumberRepository.GetContactNumber(userId, contactId, contactNumberId);
             if (db is null)
             {
                 throw new ContactNumberNotFoundException($"Contact number with ID {contactId} not found.");

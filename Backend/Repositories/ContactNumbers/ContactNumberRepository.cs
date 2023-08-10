@@ -44,10 +44,15 @@ namespace Backend.Repositories.ContactNumbers
             return true;
         }
 
-        public async Task<ContactNumber?> GetContactNumber(int contactId, int contactNumberId)
+        public async Task<ContactNumber?> GetContactNumber(int userId, int contactId, int contactNumberId)
         {
+            var contact = await _contactRepository.GetContact(userId, contactId);
+            if (contact is null)
+            {
+                throw new ContactNotFoundException("Contact not found.");
+            }
             return await _context.ContactNumbers
-                .FirstOrDefaultAsync(c => c.ContactId == contactId && c.Id == contactNumberId);
+                .FirstOrDefaultAsync(c => c.ContactId == contact.Id && c.Id == contactNumberId);
         }
 
         public async Task<ICollection<ContactNumber>> GetContactNumbers(int contactId)
