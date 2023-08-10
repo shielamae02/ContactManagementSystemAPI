@@ -24,17 +24,25 @@ namespace Backend.Services.Users
             var user = _mapper.Map<User>(newUser);
             user.Id = await _userRepository.AddUser(user);
             return user.Id;
-
         }
 
         public async Task<bool> DeleteUser(int id)
         {
-            return await _userRepository.DeleteUser(id);
+            var user = await _userRepository.DeleteUser(id);
+            if (!user)
+            {
+                throw new UserDeletionFailed("An error occurred while attempting to delete the user.");
+            }
+            return user;
         }
 
         public async Task<User> GetUser(User user)
         {
             var request = await _userRepository.GetUser(user);
+            if(request is null)
+            {
+                throw new UserNotFoundException("User not found.");
+            }
             return request;
         }
 
@@ -43,9 +51,8 @@ namespace Backend.Services.Users
             var user = await _userRepository.GetUserById(id);
             if(user is null)
             {
-                throw new Exception("User not found.");
+                throw new UserNotFoundException("User not found.");
             }
-
             return _mapper.Map<User>(user);
         }
 

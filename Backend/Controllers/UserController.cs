@@ -35,6 +35,11 @@ namespace Backend.Controllers
                 var user = await _userService.GetUserId();
                 return Ok(user);
             }
+            catch(UserNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
@@ -54,6 +59,11 @@ namespace Backend.Controllers
                     return NotFound("User not found.");
                 }
                 return Ok("Successfully deleted user.");
+            }
+            catch(UserDeletionFailed ex)
+            {
+                _logger.LogError(ex.Message);
+                return Problem(ex.Message);
             }
             catch (Exception ex)
             {
