@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
+    /// <summary>
+    /// Controller for managing user-related operations.
+    /// </summary>
     [ApiController]
     [Route("api/user")]
     [Authorize]
@@ -14,6 +17,12 @@ namespace Backend.Controllers
         private readonly IUserService _userService;
         private readonly ILogger<UserController> _logger;
         private int _userId;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserController"/> class.
+        /// </summary>
+        /// <param name="userService">The service for user-related operations.</param>
+        /// <param name="logger">The logger instance for logging.</param>
         public UserController(IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService ?? throw new Exception(nameof(userService));
@@ -26,6 +35,10 @@ namespace Backend.Controllers
             _userId = await _userService.GetUserId();
         }
 
+        /// <summary>
+        /// Gets the details of the authenticated user.
+        /// </summary>
+        /// <returns>User details if found, or an error response.</returns>
         [HttpGet]
         public async Task<IActionResult> GetUserDetails()
         {
@@ -51,6 +64,10 @@ namespace Backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Deletes the authenticated user.
+        /// </summary>
+        /// <returns>A success message if the user is deleted, or an error response.</returns>
         [HttpDelete]
         public async Task<IActionResult> DeleteUser()
         {
@@ -75,6 +92,12 @@ namespace Backend.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Updates the details of the authenticated user.
+        /// </summary>
+        /// <param name="updateUser">The updated user information.</param>
+        /// <returns>The updated user information if successful, or an error response.</returns>
         [HttpPut]
         public async Task<IActionResult> UpdateUser(UserRegisterDto updateUser)
         {
