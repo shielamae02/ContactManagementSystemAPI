@@ -14,7 +14,6 @@ namespace Backend.Repositories.ContactNumbers
 
         public async Task<int> AddContactNumber(ContactNumber newContactNumber)
         {
-           
             _context.ContactNumbers.Add(newContactNumber);
             await _context.SaveChangesAsync();
             return newContactNumber.Id;

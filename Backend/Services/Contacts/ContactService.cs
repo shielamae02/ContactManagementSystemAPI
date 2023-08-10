@@ -29,7 +29,7 @@ namespace Backend.Services.Contacts
             var contact = await _contactRepository.DeleteContact(userId, contactId);
             if (!contact)
             {
-                throw new ContactDeletionFailedException("An error occurred while attempting to delete the user.");
+                throw new ContactDeletionFailedException("An error occurred while attempting to delete the contact.");
             }
             return contact;
         }

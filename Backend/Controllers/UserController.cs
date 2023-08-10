@@ -19,7 +19,6 @@ namespace Backend.Controllers
             _userService = userService ?? throw new Exception(nameof(userService));
             _logger = logger ?? throw new Exception(nameof(logger));
             UserIdentifier();
-
         }
 
         private async void UserIdentifier()

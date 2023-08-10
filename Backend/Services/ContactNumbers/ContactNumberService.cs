@@ -27,13 +27,21 @@ namespace Backend.Services.ContactNumbers
 
         public async Task<bool> DeleteContactNumber(int contactId, int contactNumberId)
         {
-            return await _contactNumberRepository.DeleteContactNumber(contactId, contactNumberId);
-
+            var contactNumber = await _contactNumberRepository.DeleteContactNumber(contactId, contactNumberId);
+            if (!contactNumber)
+            {
+                throw new ContactNumberDeletionFailedException("An error occurred while attempting to delete the contact number.");
+            }
+            return contactNumber;
         }
 
         public async Task<ContactNumberDto> GetContactNumber(int contactId, int contactNumberId)
         {
             var contactNumber = await _contactNumberRepository.GetContactNumber(contactId, contactNumberId);
+            if (contactNumber is null)
+            {
+                throw new ContactNumberNotFoundException("Contact number not found.");
+            }
             return _mapper.Map<ContactNumberDto>(contactNumber);
         }
 
@@ -42,7 +50,7 @@ namespace Backend.Services.ContactNumbers
             var contactNumbers = await _contactNumberRepository.GetContactNumbers(contactId);
             if (contactNumbers is null)
             {
-                return null;
+                throw new ContactNumberNotFoundException("No contact numbers found.");
             }
             return contactNumbers.Select(c => _mapper.Map<ContactNumberDto>(c)).ToList();
         }
@@ -56,7 +64,7 @@ namespace Backend.Services.ContactNumbers
             var result = await _contactNumberRepository.UpdateContactNumber(dbContactNumber);
             if (!result)
             {
-                throw new UserUpdateFailedException("Contact number update failed.");
+                throw new ContactNumberUpdateFailedException("Contact number update failed.");
             }
 
             return _mapper.Map<ContactNumberDto>(dbContactNumber);

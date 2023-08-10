@@ -79,6 +79,11 @@ namespace Backend.Controllers
                 var contact = await _contactService.AddContact(userId, newContact);
                 return Ok(contact);
             }
+            catch (ContactNumberCreationFailedException ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
