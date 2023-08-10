@@ -39,12 +39,12 @@ namespace Backend.Services.Users
         public async Task<User> GetUser(User user)
         {
             return await _userRepository.GetUser(user);
-            //var request = await _userRepository.GetUser(user);
-            //if(request is null)
-            //{
-            //    throw new UserNotFoundException("User not found.");
-            //}
-            //return request;
+            var request = await _userRepository.GetUser(user);
+            if (request is null)
+            {
+                throw new UserNotFoundException("User not found.");
+            }
+            return request;
         }
 
         public async Task<User> GetUserById(int id)

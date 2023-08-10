@@ -35,5 +35,8 @@ namespace Backend.Models.Auths
         [MinLength(3, ErrorMessage = "Password must be at least 3 characters long.")]
         [MaxLength(150, ErrorMessage = "Password must not exceed 150 characters.")]
         public string ConfirmPassword { get; set; } = string.Empty;
+
+
+
     }
 }

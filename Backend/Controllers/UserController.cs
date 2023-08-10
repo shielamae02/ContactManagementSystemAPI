@@ -71,7 +71,7 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPut]
         public async Task<IActionResult> UpdateUser(UserRegisterDto updateUser)
         {
             try

@@ -53,7 +53,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Addresses");
+                    b.ToTable("Addresses", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Entities.Contact", b =>
@@ -92,7 +92,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Contacts");
+                    b.ToTable("Contacts", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Entities.ContactNumber", b =>
@@ -126,7 +126,7 @@ namespace Backend.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("ContactNumbers");
+                    b.ToTable("ContactNumbers", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Entities.User", b =>
@@ -175,7 +175,7 @@ namespace Backend.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Backend.Entities.Address", b =>
