@@ -1,4 +1,5 @@
-﻿using Backend.Exceptions;
+﻿using Backend.Entities;
+using Backend.Exceptions;
 using Backend.Models.Auths;
 using Backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -41,7 +42,7 @@ namespace Backend.Controllers
         /// <returns>User details if found, or an error response.</returns>
         [HttpGet]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(User), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUserDetails()
@@ -109,7 +110,7 @@ namespace Backend.Controllers
         [HttpPut]
         [Produces("application/json")]
         [Consumes("application/json")]
-        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(UserRegisterDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateUser(UserRegisterDto updateUser)
