@@ -32,7 +32,9 @@ namespace Backend.Controllers
                 var userId = await _userService.GetUserId();
                 var contacts = await _contactService.GetContacts(userId);
                 if (contacts is null)
+                {
                     return NotFound("No contacts found.");
+                }
                 return Ok(contacts);
             }
             catch (ContactNotFoundException ex)
@@ -80,7 +82,11 @@ namespace Backend.Controllers
             {
                 var userId = await _userService.GetUserId();
                 var contact = await _contactService.AddContact(userId, newContact);
-                return Ok(contact);
+                if (contact is null)
+                {
+                    throw new ContactCreationFailedException("User creation failed.");
+                }
+                return StatusCode(201, contact);
             }
             catch (ContactNumberCreationFailedException ex)
             {

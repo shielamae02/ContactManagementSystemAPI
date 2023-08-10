@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Backend.Entities
 {
@@ -31,9 +32,12 @@ namespace Backend.Entities
         [StringLength(150)]
         public string PasswordSalt { get; set; } = string.Empty;
 
+        //public int NumberOfContacts => Contacts.Count;
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
+        [JsonIgnore]
         public ICollection<Contact> Contacts { get; set; } = new List<Contact>();
     }
 }

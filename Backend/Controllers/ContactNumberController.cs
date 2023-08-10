@@ -25,6 +25,11 @@ namespace Backend.Controllers
             _logger = logger ?? throw new ArgumentException(nameof(logger));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contactId"></param>
+        /// <returns></returns>
         [HttpGet]
         [Produces("application/json")]
         [Consumes("application/json")]

@@ -31,7 +31,11 @@ namespace Backend.Controllers
         {
             try
             {
-                var user = await _userService.GetUserId();
+                var user = await _userService.GetUserById(_userId);
+                if(user is null)
+                {
+                    return NotFound("User details not found.");
+                }
                 return Ok(user);
             }
             catch(UserNotFoundException ex)

@@ -30,7 +30,7 @@ namespace Backend.Models.Auths
         [MaxLength(150, ErrorMessage = "Password must not exceed 150 characters.")]
         public string Password { get; set; } = string.Empty;
 
-        [Compare("Password", ErrorMessage = "Password does not match.")]
+        [Compare("Password", ErrorMessage = "Passwords do not match.")]
         [Required(ErrorMessage = "Please confirm your password.")]
         [MinLength(3, ErrorMessage = "Password must be at least 3 characters long.")]
         [MaxLength(150, ErrorMessage = "Password must not exceed 150 characters.")]

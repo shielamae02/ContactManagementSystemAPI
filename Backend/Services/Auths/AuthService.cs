@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Entities;
+using Backend.Exceptions;
 using Backend.Models.Auths;
 using Backend.Services.Users;
 using Backend.Utils;
@@ -25,10 +26,15 @@ namespace Backend.Services.Auths
             var userModel = _mapper.Map<User>(request);
             var user = await _userService.GetUser(userModel);
 
+            if(user is null)
+            {
+                throw new UserNotFoundException("User does not exist.");
+            }
+
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password, user.PasswordSalt);
             if(!user.Password.Equals(passwordHash))
             {
-                throw new Exception("Incorrect password.");
+                throw new UserAuthenticationFailedException("Incorrect password.");
             }
 
             var response = _mapper.Map<AuthUserDto>(user);
@@ -43,7 +49,7 @@ namespace Backend.Services.Auths
             var userExists = await _userService.GetUser(user);
             if (userExists != null)
             {
-                throw new Exception("User already exists.");
+                throw new UserAuthenticationFailedException("User already exists.");
             }
 
             var newUser = _mapper.Map<User>(request);
