@@ -4,7 +4,7 @@ namespace Backend.Repositories.ContactNumbers
 {
     public interface IContactNumberRepository
     {
-        Task<ICollection<ContactNumber>> GetContactNumbers(int contactId);
+        Task<ICollection<ContactNumber>> GetContactNumbers(int userId, int contactId);
         Task<ContactNumber?> GetContactNumber(int userId, int contactId, int contactNumberId);
         Task<int> AddContactNumber(int contactId, ContactNumber newContactNumber);
         Task<bool> DeleteContactNumber(int userId,int contactId, int contactNumberId);

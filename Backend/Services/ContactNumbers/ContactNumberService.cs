@@ -43,7 +43,7 @@ namespace Backend.Services.ContactNumbers
             return contactNumber;
         }
 
-        public async Task<ContactNumberDto> GetContactNumber(int userId,int contactId, int contactNumberId)
+        public async Task<ContactNumberDto> GetContactNumber(int userId, int contactId, int contactNumberId)
         {
             var contactNumber = await _contactNumberRepository.GetContactNumber(userId, contactId, contactNumberId);
             if (contactNumber is null)
@@ -53,9 +53,9 @@ namespace Backend.Services.ContactNumbers
             return _mapper.Map<ContactNumberDto>(contactNumber);
         }
 
-        public async Task<ICollection<ContactNumberDto>> GetContactNumbers(int contactId)
+        public async Task<ICollection<ContactNumberDto>> GetContactNumbers(int userId, int contactId)
         {
-            var contactNumbers = await _contactNumberRepository.GetContactNumbers(contactId);
+            var contactNumbers = await _contactNumberRepository.GetContactNumbers(userId, contactId);
             if (contactNumbers is null)
             {
                 throw new ContactNumberNotFoundException("No contact numbers found.");

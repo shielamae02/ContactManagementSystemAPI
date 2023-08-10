@@ -55,9 +55,14 @@ namespace Backend.Repositories.ContactNumbers
                 .FirstOrDefaultAsync(c => c.ContactId == contact.Id && c.Id == contactNumberId);
         }
 
-        public async Task<ICollection<ContactNumber>> GetContactNumbers(int contactId)
+        public async Task<ICollection<ContactNumber>> GetContactNumbers(int userId,int contactId)
         {
-            return await _context.ContactNumbers.Where(c => c.ContactId == contactId).ToListAsync();
+            var contact = await _contactRepository.GetContact(userId, contactId);
+            if (contact is null)
+            {
+                throw new ContactNotFoundException("Contact not found.");
+            }
+            return await _context.ContactNumbers.Where(c => c.ContactId == contact.Id).ToListAsync();
         }
 
         public async Task<bool> UpdateContactNumber(int contactId, ContactNumber updateContactNumber)

@@ -32,7 +32,8 @@ namespace Backend.Controllers
         {
             try
             {
-                var contactNumbers = await _contactNumberService.GetContactNumbers(contactId);
+                var userId = await _userService.GetUserId();
+                var contactNumbers = await _contactNumberService.GetContactNumbers(userId, contactId);
                 if (contactNumbers is null)
                 {
                     return NotFound("No contact numbers found.");
