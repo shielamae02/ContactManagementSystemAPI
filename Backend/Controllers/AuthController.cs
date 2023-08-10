@@ -1,4 +1,5 @@
-﻿using Backend.Models.Auths;
+﻿using Backend.Exceptions;
+using Backend.Models.Auths;
 using Backend.Services.Auths;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,7 +25,7 @@ namespace Backend.Controllers
                 var user = await _authService.AuthLogin(request);
                 if (user is null)
                 {
-                    return NotFound("User not found.");
+                    throw new UserNotFoundException("User not found.");
                 }
                 return Ok(user);
             }
@@ -44,14 +45,14 @@ namespace Backend.Controllers
                 if (user is null)
                 {
                     _logger.LogError("Registration failed.");
-                    return BadRequest("User not found.");
+                    return BadRequest();
                 }
                 return Ok(user);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An error occured during user authentication: {ex.Message}", ex.Message);
-                return StatusCode(500, "Something went wrong.");
+                return StatusCode(500, ex.Message);
             }
         }
     }
