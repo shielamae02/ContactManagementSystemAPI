@@ -110,7 +110,8 @@ namespace Backend.Controllers
         {
             try
             {
-                var contact = await _contactNumberService.DeleteContactNumber(contactId, contactNumberId);
+                var userId = await _userService.GetUserId();
+                var contact = await _contactNumberService.DeleteContactNumber(userId, contactId, contactNumberId);
                 if (!contact)
                 {
                     return NotFound("Contact number not found.");

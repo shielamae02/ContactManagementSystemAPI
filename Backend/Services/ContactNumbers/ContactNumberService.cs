@@ -33,9 +33,9 @@ namespace Backend.Services.ContactNumbers
             return contactNumber;
         }
 
-        public async Task<bool> DeleteContactNumber(int contactId, int contactNumberId)
+        public async Task<bool> DeleteContactNumber(int userId,int contactId, int contactNumberId)
         {
-            var contactNumber = await _contactNumberRepository.DeleteContactNumber(contactId, contactNumberId);
+            var contactNumber = await _contactNumberRepository.DeleteContactNumber(userId, contactId, contactNumberId);
             if (!contactNumber)
             {
                 throw new ContactNumberDeletionFailedException("An error occurred while attempting to delete the contact number.");

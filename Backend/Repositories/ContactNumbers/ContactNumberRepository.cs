@@ -1,6 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Entities;
 using Backend.Exceptions;
+using Backend.Repositories.Contacts;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,9 +10,11 @@ namespace Backend.Repositories.ContactNumbers
     public class ContactNumberRepository : IContactNumberRepository
     {
         private readonly DataContext _context;
-        public ContactNumberRepository(DataContext context)
+        private readonly IContactRepository _contactRepository;
+        public ContactNumberRepository(DataContext context, IContactRepository contactRepository)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
+            _contactRepository = contactRepository ?? throw new ArgumentNullException(nameof(contactRepository));
         }
 
         public async Task<int> AddContactNumber(int contactId, ContactNumber newContactNumber)
@@ -21,10 +24,16 @@ namespace Backend.Repositories.ContactNumbers
             return newContactNumber.Id;
         }
 
-        public async Task<bool> DeleteContactNumber(int contactId, int contactNumberId)
+        public async Task<bool> DeleteContactNumber(int userId, int contactId, int contactNumberId)
         {
+            var contact = await _contactRepository.GetContact(userId, contactId);
+            if (contact is null)
+            {
+                throw new ContactNotFoundException("Contact not found.");
+            }
+
             var db = _context.ContactNumbers;
-            var contactNumber = await db.FirstOrDefaultAsync(c => c.ContactId == contactId && c.Id == contactNumberId);
+            var contactNumber = await db.FirstOrDefaultAsync(c => c.ContactId == contact.Id && c.Id == contactNumberId);
             if (contactNumber is null)
             {
                 return false;
