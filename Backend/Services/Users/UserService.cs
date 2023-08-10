@@ -31,7 +31,7 @@ namespace Backend.Services.Users
             var user = await _userRepository.DeleteUser(id);
             if (!user)
             {
-                throw new UserDeletionFailed("An error occurred while attempting to delete the user.");
+                throw new UserDeletionFailedException("An error occurred while attempting to delete the user.");
             }
             return user;
         }

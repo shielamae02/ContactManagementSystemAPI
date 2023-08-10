@@ -1,4 +1,5 @@
-﻿using Backend.Models.Contacts;
+﻿using Backend.Exceptions;
+using Backend.Models.Contacts;
 using Backend.Services.Contacts;
 using Backend.Services.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +29,13 @@ namespace Backend.Controllers
                 var userId = await _userService.GetUserId();
                 var contacts = await _contactService.GetContacts(userId);
                 if (contacts is null)
-                    return NotFound("No contacts available.");
+                    return NotFound("No contacts found.");
                 return Ok(contacts);
+            }
+            catch (ContactNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -50,6 +56,11 @@ namespace Backend.Controllers
                     return NotFound("Contact not found.");
                 }
                 return Ok(contact);
+            }
+            catch (ContactNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
@@ -88,6 +99,11 @@ namespace Backend.Controllers
                 }
                 return Ok("Successfully deleted contact.");
             }
+            catch (ContactDeletionFailedException ex)
+            {
+                _logger.LogError(ex.Message);
+                return Problem(ex.Message);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
@@ -103,6 +119,11 @@ namespace Backend.Controllers
                 var userId = await _userService.GetUserId();
                 var contact = await _contactService.UpdateContact(userId, contactId, updatedContact);
                 return Ok(contact);
+            }
+            catch (ContactUpdateFailedException ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

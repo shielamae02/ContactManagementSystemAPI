@@ -60,7 +60,7 @@ namespace Backend.Controllers
                 }
                 return Ok("Successfully deleted user.");
             }
-            catch(UserDeletionFailed ex)
+            catch(UserDeletionFailedException ex)
             {
                 _logger.LogError(ex.Message);
                 return Problem(ex.Message);
@@ -88,7 +88,6 @@ namespace Backend.Controllers
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
-
             }
             catch (Exception ex)
             {

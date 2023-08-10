@@ -28,6 +28,7 @@ namespace Backend.Services.ContactNumbers
         public async Task<bool> DeleteContactNumber(int contactId, int contactNumberId)
         {
             return await _contactNumberRepository.DeleteContactNumber(contactId, contactNumberId);
+
         }
 
         public async Task<ContactNumberDto> GetContactNumber(int contactId, int contactNumberId)

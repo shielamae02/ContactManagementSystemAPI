@@ -14,10 +14,9 @@ namespace Backend.Services.Contacts
         {
             _contactRepository = contactRepository;
             _mapper = mapper;
-
         }
 
-        public async Task<Contact> AddContact(int userId,AddContactDto newContact)
+        public async Task<Contact> AddContact(int userId, AddContactDto newContact)
         {
             var contact = _mapper.Map<Contact>(newContact);
             contact.UserId = userId;
@@ -27,18 +26,31 @@ namespace Backend.Services.Contacts
 
         public async Task<bool> DeleteContact(int userId, int contactId)
         {
-            return await _contactRepository.DeleteContact(userId, contactId);
+            var contact = await _contactRepository.DeleteContact(userId, contactId);
+            if (!contact)
+            {
+                throw new ContactDeletionFailedException("An error occurred while attempting to delete the user.");
+            }
+            return contact;
         }
 
         public async Task<ContactDto> GetContact(int userId, int contactId)
         {
             var contact = await _contactRepository.GetContact(userId, contactId);
+            if (contact is null)
+            {
+                throw new ContactNotFoundException("Contact not found.");
+            }
             return _mapper.Map<ContactDto>(contact);
         }
 
         public async Task<ICollection<ContactDto>> GetContacts(int userId)
         {
             var contacts = await _contactRepository.GetContacts(userId);
+            if (contacts is null)
+            {
+                throw new ContactNotFoundException("No contacts found.");
+            }
             return contacts.Select(c => _mapper.Map<ContactDto>(c)).ToList();
         }
 
@@ -51,7 +63,7 @@ namespace Backend.Services.Contacts
             var result = await _contactRepository.UpdateContact(dbContact);
             if (!result)
             {
-                throw new UserUpdateFailedException("Contact update failed.");
+                throw new ContactUpdateFailedException("Contact update failed.");
             }
 
             return _mapper.Map<ContactDto>(dbContact);

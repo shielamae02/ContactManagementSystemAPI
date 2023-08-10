@@ -61,7 +61,7 @@ namespace Backend.Repositories.Contacts
             {
                 return false;
             }
-            //_context.Entry(contact).State = EntityState.Modified;
+
             contact.FirstName = updateContact.FirstName;
             contact.LastName = updateContact.LastName;
             contact.EmailAddress = updateContact.EmailAddress;
