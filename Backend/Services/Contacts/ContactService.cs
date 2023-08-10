@@ -54,13 +54,18 @@ namespace Backend.Services.Contacts
             return contacts.Select(c => _mapper.Map<ContactDto>(c)).ToList();
         }
 
-        public async Task<ContactDto> UpdateContact(int userId, int contactId, UpdateContactDto updatedContact)
+        public async Task<ContactDto> UpdateContact(int userId, int contactId, UpdateContactDto updateContact)
         {
-            var dbContact = _mapper.Map<Contact>(updatedContact);
-            dbContact.UserId = userId;
+            var db = await _contactRepository.GetContact(userId, contactId);
+            if (db is null)
+            {
+                throw new ContactNotFoundException($"Contact with ID {contactId} not found.");
+            }
+
+            var dbContact = _mapper.Map(updateContact, db);
             dbContact.Id = contactId;
 
-            var result = await _contactRepository.UpdateContact(dbContact);
+            var result = await _contactRepository.UpdateContact(userId, dbContact);
             if (!result)
             {
                 throw new ContactUpdateFailedException("Contact update failed.");

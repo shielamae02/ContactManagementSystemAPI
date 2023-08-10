@@ -1,7 +1,9 @@
 using Backend.Data;
+using Backend.Repositories.ContactNumbers;
 using Backend.Repositories.Contacts;
 using Backend.Repositories.Users;
 using Backend.Services.Auths;
+using Backend.Services.ContactNumbers;
 using Backend.Services.Contacts;
 using Backend.Services.Users;
 using Microsoft.EntityFrameworkCore;
@@ -55,9 +57,10 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IContactService, ContactService>();
 
+builder.Services.AddScoped<IContactNumberRepository, ContactNumberRepository>();
+builder.Services.AddScoped<IContactNumberService, ContactNumberService>();
+
 builder.Services.AddHttpContextAccessor();
-
-
 
 var app = builder.Build();
 

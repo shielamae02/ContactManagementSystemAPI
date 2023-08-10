@@ -1,21 +1,27 @@
-﻿using Backend.Exceptions;
+﻿using Backend.Entities;
+using Backend.Exceptions;
 using Backend.Models.ContactNumbers;
 using Backend.Services.ContactNumbers;
+using Backend.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/contacts/{contactId}/contactNumbers")]
+    [Authorize]
     public class ContactNumberController : ControllerBase
     {
 
         private readonly IContactNumberService _contactNumberService;
+        private readonly IUserService _userService;
         private readonly ILogger<ContactNumberController> _logger;
 
-        public ContactNumberController(IContactNumberService contactNumberService, ILogger<ContactNumberController> logger)
+        public ContactNumberController(IContactNumberService contactNumberService, ILogger<ContactNumberController> logger, IUserService userService)
         {
             _contactNumberService = contactNumberService ?? throw new ArgumentNullException(nameof(contactNumberService));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
             _logger = logger ?? throw new ArgumentException(nameof(logger));
         }
 
@@ -72,14 +78,19 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddContactNumber(int contactId, AddContactNumberDto newContactNumber)
+        public async Task<IActionResult> AddContactNumber(int contactId, [FromBody] AddContactNumberDto newContactNumber)
         {
             try
             {
-                var contact = await _contactNumberService.AddContactNumber(contactId, newContactNumber);
-                return Ok(contact);
+                var userId = await _userService.GetUserId();
+                var contactNumber = await _contactNumberService.AddContactNumber(userId, contactId, newContactNumber);
+                if (contactNumber is null)
+                {
+                    return BadRequest("Contact number creation failed.");
+                }
+                return Ok(contactNumber);
             }
-            catch(ContactNumberCreationFailedException ex)
+            catch (ContactNumberCreationFailedException ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
@@ -121,7 +132,7 @@ namespace Backend.Controllers
         [HttpPut("{contactNumberId}")]
         [Produces("application/json")]
         [Consumes("application/json")]
-        public async Task<IActionResult> UpdateContactNumber(int contactId, int contactNumberId, UpdateContactNumberDto updateContactNumber)
+        public async Task<IActionResult> UpdateContactNumber(int contactId, int contactNumberId, [FromBody] UpdateContactNumberDto updateContactNumber)
         {
             try
             {

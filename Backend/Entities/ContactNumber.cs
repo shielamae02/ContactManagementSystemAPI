@@ -10,7 +10,6 @@ namespace Backend.Entities
         public int Id { get; set; }
 
         [ForeignKey("ContactId")]
-        [JsonIgnore]
         public int ContactId { get; set; }
         [JsonIgnore]
         public Contact Contact { get; set; }

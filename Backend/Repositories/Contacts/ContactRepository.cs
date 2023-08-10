@@ -54,14 +54,15 @@ namespace Backend.Repositories.Contacts
                 .FirstOrDefaultAsync(c => c.Id == contactId);
         }
 
-        public async Task<bool> UpdateContact(Contact updateContact)
+        public async Task<bool> UpdateContact(int userId, Contact updateContact)
         {
-            var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == updateContact.Id);
+            var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == updateContact.Id && c.UserId == userId);
             if (contact is null)
             {
                 return false;
             }
 
+            contact.UserId = updateContact.UserId;
             contact.FirstName = updateContact.FirstName;
             contact.LastName = updateContact.LastName;
             contact.EmailAddress = updateContact.EmailAddress;

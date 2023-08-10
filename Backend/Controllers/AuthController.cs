@@ -1,6 +1,5 @@
 ﻿using Backend.Models.Auths;
 using Backend.Services.Auths;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers

@@ -2,12 +2,15 @@
 using Backend.Models.Contacts;
 using Backend.Services.Contacts;
 using Backend.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/contacts")]
+    [Authorize]
+   
     public class ContactController : ControllerBase
     {
         private readonly IContactService _contactService;

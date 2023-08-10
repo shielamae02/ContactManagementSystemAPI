@@ -1,5 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Entities;
+using Backend.Exceptions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.ContactNumbers
@@ -12,7 +14,7 @@ namespace Backend.Repositories.ContactNumbers
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<int> AddContactNumber(ContactNumber newContactNumber)
+        public async Task<int> AddContactNumber(int contactId, ContactNumber newContactNumber)
         {
             _context.ContactNumbers.Add(newContactNumber);
             await _context.SaveChangesAsync();
@@ -35,7 +37,8 @@ namespace Backend.Repositories.ContactNumbers
 
         public async Task<ContactNumber?> GetContactNumber(int contactId, int contactNumberId)
         {
-            return await _context.ContactNumbers.FirstOrDefaultAsync(c => c.ContactId == contactId && c.Id == contactNumberId);
+            return await _context.ContactNumbers
+                .FirstOrDefaultAsync(c => c.ContactId == contactId && c.Id == contactNumberId);
         }
 
         public async Task<ICollection<ContactNumber>> GetContactNumbers(int contactId)
@@ -43,14 +46,15 @@ namespace Backend.Repositories.ContactNumbers
             return await _context.ContactNumbers.Where(c => c.ContactId == contactId).ToListAsync();
         }
 
-        public async Task<bool> UpdateContactNumber(ContactNumber updateContactNumber)
+        public async Task<bool> UpdateContactNumber(int contactId, ContactNumber updateContactNumber)
         {
-            var contactNumber = await _context.ContactNumbers.FirstOrDefaultAsync(c => c.Id == updateContactNumber.Id);
+            var contactNumber = await _context.ContactNumbers.FirstOrDefaultAsync(c => c.Id == updateContactNumber.Id && c.ContactId == contactId);
             if (contactNumber is null)
             {
                 return false;
             }
 
+            contactNumber.ContactId = updateContactNumber.ContactId;
             contactNumber.Number = updateContactNumber.Number;
             contactNumber.Label = updateContactNumber.Label;
             contactNumber.UpdatedAt = updateContactNumber.UpdatedAt;
