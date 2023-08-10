@@ -40,6 +40,10 @@ namespace Backend.Controllers
         /// </summary>
         /// <returns>User details if found, or an error response.</returns>
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetUserDetails()
         {
             try
@@ -69,6 +73,10 @@ namespace Backend.Controllers
         /// </summary>
         /// <returns>A success message if the user is deleted, or an error response.</returns>
         [HttpDelete]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteUser()
         {
             try
@@ -99,6 +107,11 @@ namespace Backend.Controllers
         /// <param name="updateUser">The updated user information.</param>
         /// <returns>The updated user information if successful, or an error response.</returns>
         [HttpPut]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(UserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateUser(UserRegisterDto updateUser)
         {
             try

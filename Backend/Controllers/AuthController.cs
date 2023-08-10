@@ -33,6 +33,12 @@ namespace Backend.Controllers
         /// <param name="request">The login request containing user credentials.</param>
         /// <returns>An action result containing user information if successful, or an error response.</returns>
         [HttpPost("login")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(UserLoginDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Login(UserLoginDto request)
         {
             try
@@ -68,6 +74,12 @@ namespace Backend.Controllers
         /// <param name="request">The registration request containing user information.</param>
         /// <returns>An action result indicating the success or failure of the registration.</returns>
         [HttpPost("register")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(UserRegisterDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Register(UserRegisterDto request)
         {
             try

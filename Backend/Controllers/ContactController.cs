@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
-
     /// <summary>
     /// Controller for managing contacts of an authenticated user.
     /// </summary>
@@ -38,6 +37,10 @@ namespace Backend.Controllers
         /// </summary>
         /// <returns>A list of contacts belonging to the user.</returns>
         [HttpGet]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(List<ContactDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetContacts()
         {
             try
@@ -69,6 +72,10 @@ namespace Backend.Controllers
         /// <param name="contactId">The ID of the contact to retrieve.</param>
         /// <returns>The contact information if found, or an error response.</returns>
         [HttpGet("{contactId}")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(ContactDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetContact(int contactId)
         {
             try
@@ -101,6 +108,11 @@ namespace Backend.Controllers
         /// <param name="newContact">The contact information to add.</param>
         /// <returns>The added contact if successful, or an error response.</returns>
         [HttpPost]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(ContactDto), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddContact(AddContactDto newContact)
         {
             try
@@ -132,6 +144,10 @@ namespace Backend.Controllers
         /// <param name="contactId">The ID of the contact to delete.</param>
         /// <returns>A success message if the contact is deleted, or an error response.</returns>
         [HttpDelete("{contactId}")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteContact(int contactId)
         {
             try
@@ -147,7 +163,7 @@ namespace Backend.Controllers
             catch (ContactDeletionFailedException ex)
             {
                 _logger.LogError(ex.Message);
-                return Problem(ex.Message);
+                return Problem(ex.Message); //subject to change
             }
             catch (Exception ex)
             {
@@ -163,6 +179,11 @@ namespace Backend.Controllers
         /// <param name="updatedContact">The updated contact information.</param>
         /// <returns>The updated contact information if successful, or an error response.</returns>
         [HttpPut("{contactId}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(ContactDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateContact(int contactId, UpdateContactDto updatedContact)
         {
             try
