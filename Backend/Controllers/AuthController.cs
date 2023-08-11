@@ -1,4 +1,4 @@
-﻿using Backend.Exceptions;
+﻿using Backend.Exceptions.Users;
 using Backend.Models.Auths;
 using Backend.Services.Auths;
 using Microsoft.AspNetCore.Mvc;

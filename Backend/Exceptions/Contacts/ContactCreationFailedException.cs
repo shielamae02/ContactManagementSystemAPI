@@ -1,4 +1,4 @@
-﻿namespace Backend.Exceptions
+﻿namespace Backend.Exceptions.Contacts
 {
     public class ContactCreationFailedException : Exception
     {

@@ -1,4 +1,4 @@
-﻿namespace Backend.Exceptions
+﻿namespace Backend.Exceptions.Users
 {
     public class UserDeletionFailedException : Exception
     {

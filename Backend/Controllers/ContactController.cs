@@ -1,4 +1,5 @@
-﻿using Backend.Exceptions;
+﻿using Backend.Exceptions.ContactNumbers;
+using Backend.Exceptions.Contacts;
 using Backend.Models.Contacts;
 using Backend.Services.Contacts;
 using Backend.Services.Users;

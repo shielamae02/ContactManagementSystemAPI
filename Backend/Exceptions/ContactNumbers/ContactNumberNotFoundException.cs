@@ -1,4 +1,4 @@
-﻿namespace Backend.Exceptions
+﻿namespace Backend.Exceptions.ContactNumbers
 {
     public class ContactNumberNotFoundException : Exception
     {

@@ -1,5 +1,5 @@
 ﻿using Backend.Entities;
-using Backend.Exceptions;
+using Backend.Exceptions.ContactNumbers;
 using Backend.Models.ContactNumbers;
 using Backend.Models.Contacts;
 using Backend.Services.ContactNumbers;

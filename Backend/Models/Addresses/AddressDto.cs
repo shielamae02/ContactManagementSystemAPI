@@ -3,6 +3,7 @@
     public class AddressDto
     {
         public int Id { get; set; }
-        public string AddressDetails { get; set; } = string.Empty;
+        public string Details { get; set; } = string.Empty;
+        public string Label { get; set; } = string.Empty;
     }
 }

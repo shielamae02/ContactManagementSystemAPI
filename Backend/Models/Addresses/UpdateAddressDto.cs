@@ -2,7 +2,7 @@
 
 namespace Backend.Models.Addresses
 {
-    public class AddAddressDto
+    public class UpdateAddressDto
     {
         [Required(ErrorMessage = "Address details are required.")]
         [MinLength(5, ErrorMessage = "Address details must be at least 5 characters long.")]
@@ -13,6 +13,6 @@ namespace Backend.Models.Addresses
         [MinLength(3, ErrorMessage = "Address type must be at least 3 characters long.")]
         [MaxLength(50, ErrorMessage = "Address type label must not exceed 50 characters.")]
         public string Label { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime UpdatedAt { get; set; } = DateTime.Now;
     }
 }

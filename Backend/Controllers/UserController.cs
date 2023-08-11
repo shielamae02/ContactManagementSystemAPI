@@ -1,5 +1,5 @@
 ﻿using Backend.Entities;
-using Backend.Exceptions;
+using Backend.Exceptions.Users;
 using Backend.Models.Auths;
 using Backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
