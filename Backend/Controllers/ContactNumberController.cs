@@ -1,4 +1,5 @@
-﻿using Backend.Exceptions.ContactNumbers;
+﻿using Backend.Exceptions.Addresses;
+using Backend.Exceptions.ContactNumbers;
 using Backend.Exceptions.Contacts;
 using Backend.Models.ContactNumbers;
 using Backend.Services.ContactNumbers;
@@ -58,6 +59,11 @@ namespace Backend.Controllers
                 }
                 return Ok(contactNumbers);
             }
+            catch (ContactNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
+            }
             catch (ContactNumberNotFoundException ex)
             {
                 _logger.LogError(ex.Message);
@@ -92,6 +98,11 @@ namespace Backend.Controllers
                     return NotFound("Contact number not found.");
                 }
                 return Ok(contactNumber);
+            }
+            catch (ContactNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (ContactNumberNotFoundException ex)
             {
@@ -170,10 +181,20 @@ namespace Backend.Controllers
                 }
                 return Ok("Successfully deleted contact number.");
             }
+            catch (ContactNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
+            }
+            catch (ContactNumberNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
+            }
             catch (ContactNumberDeletionFailedException ex)
             {
                 _logger.LogError(ex.Message);
-                return Problem(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -203,6 +224,11 @@ namespace Backend.Controllers
                 var userId = await _userService.GetUserId();
                 var contactNumber = await _contactNumberService.UpdateContactNumber(userId, contactId, contactNumberId, updateContactNumber);
                 return Ok(contactNumber);
+            }
+            catch (ContactNumberNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (ContactNumberUpdateFailedException ex)
             {

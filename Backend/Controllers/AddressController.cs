@@ -35,7 +35,7 @@ namespace Backend.Controllers
                 var address = _addressService.AddAddress(userId, contactId, newAddress);
                 if(address is null)
                 {
-                    throw new ContactCreationFailedException("Address creation failed.");
+                    throw new AddressCreationFailedException("Address creation failed.");
                 }
                 return StatusCode(201, address);
             }
@@ -44,7 +44,7 @@ namespace Backend.Controllers
                 _logger.LogError(ex.Message);
                 return NotFound(ex.Message);
             }
-            catch (ContactCreationFailedException ex)
+            catch (AddressCreationFailedException ex)
             {
                 _logger.LogError(ex.Message);
                 return BadRequest(ex.Message);
@@ -65,7 +65,7 @@ namespace Backend.Controllers
                 var addresses = _addressService.GetAddresses(userId, contactId);
                 if(addresses is null)
                 {
-                    throw new AddressNotFoundException("No addresses found.");
+                    return NotFound("No addresses found.");
                 }
                 return Ok(addresses);
             }
@@ -95,7 +95,7 @@ namespace Backend.Controllers
                 var address = _addressService.GetAddress(userId, contactId, addressId);
                 if (address is null)
                 {
-                    throw new AddressNotFoundException("No addresses found.");
+                    return NotFound("Address not found.");
                 }
                 return Ok(address);
             }
@@ -125,7 +125,7 @@ namespace Backend.Controllers
                 var address = await _addressService.DeleteAddress(userId, contactId, addressId);
                 if (!address)
                 {
-                    throw new AddressNotFoundException("No addresses found.");
+                    return NotFound("No addresses found.");
                 }
                 return Ok(address);
             }
@@ -134,15 +134,15 @@ namespace Backend.Controllers
                 _logger.LogError(ex.Message);
                 return NotFound(ex.Message);
             }
-            catch (AddressDeletionFailedException ex)
-            {
-                _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
-            }
             catch (AddressNotFoundException ex)
             {
                 _logger.LogError(ex.Message);
                 return NotFound(ex.Message);
+            }
+            catch (AddressDeletionFailedException ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
