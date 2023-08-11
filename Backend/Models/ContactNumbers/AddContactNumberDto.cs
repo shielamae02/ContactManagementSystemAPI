@@ -13,6 +13,7 @@ namespace Backend.Models.ContactNumbers
         [MinLength(3, ErrorMessage = "Contact number label must be at least 3 characters long.")]
         [MaxLength(50, ErrorMessage = "Contact number label must not exceed 50 characters.")]
         public string Label { get; set; } = string.Empty;
+
         public DateTime CreatedAt { get; set; } = DateTime.Now;
     }
 }

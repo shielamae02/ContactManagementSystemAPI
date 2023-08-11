@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Backend.Entities;
+using Backend.Models.ContactNumbers;
+using Backend.Utils;
+using System.ComponentModel.DataAnnotations;
 
 namespace Backend.Models.Contacts
 {
@@ -17,7 +20,14 @@ namespace Backend.Models.Contacts
 
         [Required(ErrorMessage = "Email address is required.")]
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
+
+
         public string EmailAddress { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+
+        [AtLeastOneContactNumber]
+        //public ICollection<ContactNumber> ContactNumbers { get; set; } = new List<AddContactNumberDto>();
+        public List<AddContactNumberDto> ContactNumbers { get; set; }
     }
 }
