@@ -1,8 +1,7 @@
 ﻿using Backend.Data;
 using Backend.Entities;
-using Backend.Exceptions;
+using Backend.Exceptions.Contacts;
 using Backend.Repositories.Contacts;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.ContactNumbers

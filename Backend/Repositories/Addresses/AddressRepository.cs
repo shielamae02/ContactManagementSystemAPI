@@ -1,6 +1,9 @@
 ﻿using Backend.Data;
 using Backend.Entities;
+using Backend.Exceptions.Contacts;
 using Backend.Repositories.Contacts;
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.Addresses
 {
@@ -15,31 +18,6 @@ namespace Backend.Repositories.Addresses
             _contactRepository = contactRepository ?? throw new ArgumentNullException(nameof(contactRepository));
         }
 
-        public async Task<int> AddAddress(int contactId, Address newAddress)
-        {
-            _context.Addresses.Add(newAddress);
-            await _context.SaveChangesAsync();
-            return newAddress.Id;
-        }
-
-        public Task<bool> DeleteAddress(int userId, int contactId, int addressId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<Address?> GetAddress(int userId, int contactId, int addressId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ICollection<Address>> GetAddresses(int userId, int contactId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> UpdateAddress(int contactId, Address updateAddress)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
