@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Entities;
-using Backend.Exceptions;
+using Backend.Exceptions.ContactNumbers;
+using Backend.Exceptions.Contacts;
 using Backend.Models.ContactNumbers;
 using Backend.Repositories.ContactNumbers;
 using Backend.Repositories.Contacts;
@@ -27,6 +28,7 @@ namespace Backend.Services.ContactNumbers
             {
                 throw new ContactNotFoundException("Contact not found.");
             }
+
             var contactNumber = _mapper.Map<ContactNumber>(newContactNumber);
             contactNumber.ContactId = contact.Id;
             contactNumber.Id = await _contactNumberRepository.AddContactNumber(contactId, contactNumber);
