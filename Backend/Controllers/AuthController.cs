@@ -2,12 +2,14 @@
 using Backend.Models.Auths;
 using Backend.Services.Auths;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
 
 namespace Backend.Controllers
 {
     /// <summary>
     /// Controller for user authentication operations.
     /// </summary>
+    [EnableCors(origins: "http://localhost:5173", headers: "*", methods: "*")]
     [ApiController]
     [Route("api/auth")]
     public class AuthController : ControllerBase
@@ -56,9 +58,9 @@ namespace Backend.Controllers
                 return NotFound(ex.Message);
             }
             catch (UserAuthenticationFailedException ex)
-            {
+            { 
                 _logger.LogError(ex.Message);
-                return BadRequest(ex.Message);
+                return BadRequest("Error!!!!!");
             }
             catch (Exception ex)
             {

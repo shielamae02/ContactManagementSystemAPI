@@ -1,7 +1,10 @@
+import axios from 'axios';
+
 const HomeView = () => {
+   
     return (
         <div>
-            Hello, world!
+            Hello, World!
         </div>
     )
 }

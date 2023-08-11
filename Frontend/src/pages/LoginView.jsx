@@ -9,22 +9,19 @@ const LoginView = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+
         try {
-            const response = await axios.post("https://localhost:7046/api/auth/login", {
-                email : email,
+            const response = await axios.post("http://localhost:5184/api/auth/login", {
+                emailAddress : email,
                 password : password
             }).then(result => {
-                console.log(result)
+                console.log("Login successful! User data: ", result.data)
             });
-
-            console.log("Login successful! ", response.data);
         }
         catch (error){
-            console.error("Login failed ", error);
+            console.error("Login failed: ", error);
         }
     }
-
-
 
     return (
         <div className= "flex justify-center items-center h-screen w-screen bg-gray-800">
