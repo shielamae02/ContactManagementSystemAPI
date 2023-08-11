@@ -1,12 +1,10 @@
-﻿using Backend.Entities;
-using Backend.Exceptions.ContactNumbers;
+﻿using Backend.Exceptions.ContactNumbers;
+using Backend.Exceptions.Contacts;
 using Backend.Models.ContactNumbers;
-using Backend.Models.Contacts;
 using Backend.Services.ContactNumbers;
 using Backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 
 namespace Backend.Controllers
 {
@@ -128,9 +126,14 @@ namespace Backend.Controllers
                 var contactNumber = await _contactNumberService.AddContactNumber(userId, contactId, newContactNumber);
                 if (contactNumber is null)
                 {
-                    return BadRequest("Contact number creation failed.");
+                    throw new ContactNumberCreationFailedException("Contact number creation failed.");
                 }
                 return StatusCode(201, contactNumber);
+            }
+            catch (ContactNotFoundException ex)
+            {
+                _logger.LogError(ex.Message);
+                return NotFound(ex.Message);
             }
             catch (ContactNumberCreationFailedException ex)
             {
