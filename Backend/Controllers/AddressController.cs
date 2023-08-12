@@ -1,8 +1,6 @@
 ﻿using Backend.Exceptions.Addresses;
-using Backend.Exceptions.ContactNumbers;
 using Backend.Exceptions.Contacts;
 using Backend.Models.Addresses;
-using Backend.Models.ContactNumbers;
 using Backend.Services.Addresses;
 using Backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -27,13 +25,15 @@ namespace Backend.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddAddress(int contactId, AddAddressDto newAddress)
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        public async Task<IActionResult> AddAddress(int contactId, [FromBody] AddAddressDto newAddress)
         {
             try
             {
                 var userId = await _userService.GetUserId();
-                var address = _addressService.AddAddress(userId, contactId, newAddress);
-                if(address is null)
+                var address = await _addressService.AddAddress(userId, contactId, newAddress);
+                if (address is null)
                 {
                     throw new AddressCreationFailedException("Address creation failed.");
                 }
@@ -41,17 +41,17 @@ namespace Backend.Controllers
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (AddressCreationFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Address creation failed.");
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -62,8 +62,8 @@ namespace Backend.Controllers
             try
             {
                 var userId = await _userService.GetUserId();
-                var addresses = _addressService.GetAddresses(userId, contactId);
-                if(addresses is null)
+                var addresses = await _addressService.GetAddresses(userId, contactId);
+                if (addresses is null)
                 {
                     return NotFound("No addresses found.");
                 }
@@ -71,17 +71,17 @@ namespace Backend.Controllers
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (AddressNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "No addresses found.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -92,7 +92,7 @@ namespace Backend.Controllers
             try
             {
                 var userId = await _userService.GetUserId();
-                var address = _addressService.GetAddress(userId, contactId, addressId);
+                var address = await _addressService.GetAddress(userId, contactId, addressId);
                 if (address is null)
                 {
                     return NotFound("Address not found.");
@@ -101,17 +101,17 @@ namespace Backend.Controllers
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (AddressNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Address not found.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -127,26 +127,26 @@ namespace Backend.Controllers
                 {
                     return NotFound("No addresses found.");
                 }
-                return Ok(address);
+                return Ok("Sucessfully deleted address.");
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (AddressNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Address not found.");
                 return NotFound(ex.Message);
             }
             catch (AddressDeletionFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "An error occurred while attempting to delete the address.");
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -162,17 +162,17 @@ namespace Backend.Controllers
             }
             catch (AddressNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Address not found.");
                 return NotFound(ex.Message);
             }
             catch (AddressUpdateFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Address update failed.");
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, "Something went wrong.");
             }
         }

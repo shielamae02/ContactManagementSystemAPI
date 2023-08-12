@@ -58,12 +58,12 @@ namespace Backend.Controllers
             }
             catch(UserNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "User not found.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, "Something went wrong.");
 
             }
@@ -91,12 +91,12 @@ namespace Backend.Controllers
             }
             catch(UserDeletionFailedException ex)
             {
-                _logger.LogError(ex.Message);
-                return Problem(ex.Message);
+                _logger.LogError(ex, "An error occurred while attempting to delete the user.");
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, "Something went wrong.");
             }
         }
@@ -126,12 +126,12 @@ namespace Backend.Controllers
             }
             catch (UserUpdateFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "User update failed.");
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, "Something went wrong.");
             }
         }

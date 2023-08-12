@@ -1,5 +1,4 @@
-﻿using Backend.Exceptions.Addresses;
-using Backend.Exceptions.ContactNumbers;
+﻿using Backend.Exceptions.ContactNumbers;
 using Backend.Exceptions.Contacts;
 using Backend.Models.ContactNumbers;
 using Backend.Services.ContactNumbers;
@@ -22,7 +21,6 @@ namespace Backend.Controllers
         private readonly ILogger<ContactNumberController> _logger;
 
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactNumberController"/> class.
         /// </summary>
@@ -34,7 +32,7 @@ namespace Backend.Controllers
         {
             _contactNumberService = contactNumberService ?? throw new ArgumentNullException(nameof(contactNumberService));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
-            _logger = logger ?? throw new ArgumentException(nameof(logger));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         /// <summary>
@@ -61,17 +59,17 @@ namespace Backend.Controllers
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (ContactNumberNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "No contact numbers found.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -101,17 +99,17 @@ namespace Backend.Controllers
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (ContactNumberNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact number not found.");
                 return NotFound(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, "Something went wrong.");
             }
         }
@@ -143,17 +141,17 @@ namespace Backend.Controllers
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (ContactNumberCreationFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact number creation failed.");
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -183,22 +181,22 @@ namespace Backend.Controllers
             }
             catch (ContactNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact not found.");
                 return NotFound(ex.Message);
             }
             catch (ContactNumberNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact number not found.");
                 return NotFound(ex.Message);
             }
             catch (ContactNumberDeletionFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "An error occurred while attempting to delete the contact number.");
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, "Something went wrong.");
             }
         }
@@ -227,17 +225,17 @@ namespace Backend.Controllers
             }
             catch (ContactNumberNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact number not found.");
                 return NotFound(ex.Message);
             }
             catch (ContactNumberUpdateFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Contact number update failed.");
                 return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, "Something went wrong.");
             }
         }

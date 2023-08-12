@@ -12,7 +12,7 @@ namespace Backend.Services.Addresses
     {
         private readonly IAddressRepository _addressRepository;
         private readonly IContactRepository _contactRepository;
-        private IMapper _mapper;
+        private readonly IMapper _mapper;
 
         public AddressService(IAddressRepository addressRepository, IContactRepository contactRepository, IMapper mapper)
         {

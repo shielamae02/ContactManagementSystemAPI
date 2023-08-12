@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Entities;
 using Backend.Exceptions;
+using Backend.Exceptions.Contacts;
 using Backend.Models.Contacts;
 using Backend.Repositories.Contacts;
 

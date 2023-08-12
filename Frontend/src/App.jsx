@@ -11,7 +11,7 @@ function App() {
     <>
     <Routes>
       <Route path="/" index element = { <LoginView /> } />
-      <Route path="/home"  exact component = { <HomeView /> } />
+      <Route path="/home" element = { <HomeView /> } />
     </Routes>
     </>
   )

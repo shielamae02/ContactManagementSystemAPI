@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';   
 import axios from 'axios';
 
 
 const LoginView = () => {   
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-
         try {
             const response = await axios.post("http://localhost:5184/api/auth/login", {
                 emailAddress : email,
@@ -17,6 +17,8 @@ const LoginView = () => {
             }).then(result => {
                 console.log("Login successful! User data: ", result.data)
             });
+            navigate('/home');
+
         }
         catch (error){
             console.error("Login failed: ", error);

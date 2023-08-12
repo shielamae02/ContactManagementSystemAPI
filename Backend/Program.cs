@@ -1,7 +1,9 @@
 using Backend.Data;
+using Backend.Repositories.Addresses;
 using Backend.Repositories.ContactNumbers;
 using Backend.Repositories.Contacts;
 using Backend.Repositories.Users;
+using Backend.Services.Addresses;
 using Backend.Services.Auths;
 using Backend.Services.ContactNumbers;
 using Backend.Services.Contacts;
@@ -70,6 +72,9 @@ builder.Services.AddScoped<IContactService, ContactService>();
 
 builder.Services.AddScoped<IContactNumberRepository, ContactNumberRepository>();
 builder.Services.AddScoped<IContactNumberService, ContactNumberService>();
+
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAddressService, AddressService>();
 
 builder.Services.AddHttpContextAccessor();
 

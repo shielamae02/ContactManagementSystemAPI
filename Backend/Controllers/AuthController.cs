@@ -54,17 +54,17 @@ namespace Backend.Controllers
             }
             catch (UserNotFoundException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "User not found.");
                 return NotFound(ex.Message);
             }
             catch (UserAuthenticationFailedException ex)
             { 
-                _logger.LogError(ex.Message);
-                return BadRequest("Error!!!!!");
+                _logger.LogError(ex, "Incorrect password.");
+                return Unauthorized(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -96,12 +96,12 @@ namespace Backend.Controllers
             }
             catch (UserAuthenticationFailedException ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "User already exists.");
                 return Conflict(ex.Message);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex.Message);
+                _logger.LogError(ex, "Something went wrong.");
                 return StatusCode(500, ex.Message);
             }
         }

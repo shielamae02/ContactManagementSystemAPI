@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Backend.Entities;
 using Backend.Exceptions;
+using Backend.Exceptions.Users;
 using Backend.Models.Auths;
 using Backend.Repositories.Users;
 using System.Security.Claims;
@@ -53,7 +54,7 @@ namespace Backend.Services.Users
 
         public async Task<int> GetUserId()
         {
-            var result = _contextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
+            var result =  _contextAccessor.HttpContext!.User.Identity as ClaimsIdentity;
             if (result is null)
             {
                 throw new UserNotFoundException("User not found.");

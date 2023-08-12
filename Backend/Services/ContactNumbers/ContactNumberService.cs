@@ -14,7 +14,7 @@ namespace Backend.Services.ContactNumbers
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _mapper;
 
-        public ContactNumberService(IMapper mapper, IContactNumberRepository contactNumberRepository, ILogger<ContactNumberService> logger, IContactRepository contactRepository)
+        public ContactNumberService(IMapper mapper, IContactNumberRepository contactNumberRepository, IContactRepository contactRepository)
         {
             _contactNumberRepository = contactNumberRepository ?? throw new ArgumentNullException(nameof(contactNumberRepository));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

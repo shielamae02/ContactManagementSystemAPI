@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Backend.Entities;
-using Backend.Exceptions;
+using Backend.Exceptions.Users;
 using Backend.Models.Auths;
 using Backend.Services.Users;
 using Backend.Utils;
@@ -12,13 +12,11 @@ namespace Backend.Services.Auths
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
-        private readonly ILogger<AuthService> _logger;
-        public AuthService(IMapper mapper, IConfiguration configuration, ILogger<AuthService> logger, IUserService userService)
+        public AuthService(IMapper mapper, IConfiguration configuration, IUserService userService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _userService = userService ?? throw new ArgumentNullException(nameof(logger));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         public async Task<AuthUserDto> AuthLogin(UserLoginDto request)
@@ -26,13 +24,13 @@ namespace Backend.Services.Auths
             var userModel = _mapper.Map<User>(request);
             var user = await _userService.GetUser(userModel);
 
-            if(user is null)
+            if (user is null)
             {
                 throw new UserNotFoundException("User does not exist.");
             }
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password, user.PasswordSalt);
-            if(!user.Password.Equals(passwordHash))
+            if (!user.Password.Equals(passwordHash))
             {
                 throw new UserAuthenticationFailedException("Incorrect password.");
             }
