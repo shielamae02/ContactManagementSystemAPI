@@ -5,12 +5,39 @@ namespace Backend.Repositories.Users
 {
     public interface IUserRepository
     {
+        /// <summary>
+        /// Adds a new user to the system based on the provided user object
+        /// </summary>
+        /// <param name="newUser"></param>
+        /// <returns>Id of the new user</returns>
         Task<int> AddUser(User newUser);
-        Task<User?> GetUser(User user);
-        Task<User> GetUserById(int id);
-        Task<bool> UpdateUser(User updateUser);
-        Task<bool> DeleteUser(int id);
 
-        //Task<bool> GetUserDetails(UserRegisterDto request);
+        /// <summary>
+        /// Gets a user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>User details</returns>
+        Task<User?> GetUser(User user);
+
+        /// <summary>
+        /// Gets a user based on the provided user ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>User details</returns>
+        Task<User> GetUserById(int id);
+
+        /// <summary>
+        /// Updates an existing user in the system with the provided user information.
+        /// </summary>
+        /// <param name="updateUser"></param>
+        /// <returns>A boolean indicatin the success or failure of the update operation.</returns>
+        Task<bool> UpdateUser(User updateUser);
+
+        /// <summary>
+        /// Deletes a user from the system based on the provided user ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A boolean indicatin the success or failure of the delete operation.</returns>
+        Task<bool> DeleteUser(int id);
     }
 }
