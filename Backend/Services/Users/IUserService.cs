@@ -5,7 +5,6 @@ namespace Backend.Services.Users
 {
     public interface IUserService
     {
-
         /// <summary>
         /// Gets a user from the system based on the provided user object.
         /// </summary>
@@ -16,7 +15,7 @@ namespace Backend.Services.Users
         /// <summary>
         /// Gets a user's ID 
         /// </summary>
-        /// <returns></returns>
+        /// <returns>User Id</returns>
         Task<int> GetUserId();
 
 
