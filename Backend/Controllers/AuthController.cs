@@ -34,6 +34,15 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="request">The login request containing user credentials.</param>
         /// <returns>An action result containing user information if successful, or an error response.</returns>
+        /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     POST /api/auth/login
+        ///     {
+        ///         "emailAddress" : "junghwan@example.com",
+        ///         "password" : "junghwan"
+        ///     }
+        /// </remarks>
         [HttpPost("login")]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -75,6 +84,19 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="request">The registration request containing user information.</param>
         /// <returns>An action result indicating the success or failure of the registration.</returns>
+        /// <remarks>
+        /// Sample Request:    
+        ///
+        ///     POST /api/auth/register
+        ///     {
+        ///         "firstName": "Amy",
+        ///         "lastName": "Santiago",
+        ///         "userName": "amySantiago",
+        ///          "emailAddress": "amysantiago@example.com",
+        ///         "password": "amysantiago",
+        ///         "confirmPassword": "amysantiago"
+        ///     }
+        /// </remarks>
         [HttpPost("register")]
         [Produces("application/json")]
         [Consumes("application/json")]
