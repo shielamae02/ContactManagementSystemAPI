@@ -10,8 +10,8 @@ namespace Backend.Mapper
         {
             CreateMap<ContactNumber, ContactNumberDto>();
             CreateMap<AddContactNumberDto, ContactNumber>();
-            CreateMap<UpdateContactNumberDto, ContactNumber>();
-            CreateMap<Contact, UpdateContactNumberDto>();
+            CreateMap<UpdateContactNumberDto, ContactNumber>()
+                .ReverseMap();
         }
     }
 }

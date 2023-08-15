@@ -8,12 +8,14 @@ namespace Backend.Mapper
     {
         public AuthMapper()
         {
-            CreateMap<User, UserLoginDto>();
-            CreateMap<User, UserRegisterDto>();
-            CreateMap<User, AuthUserDto>();
-            CreateMap<UserLoginDto, User>();
-            CreateMap<UserRegisterDto, User>();
-            CreateMap<AuthUserDto, User>();
+            CreateMap<User, UserLoginDto>()
+                .ReverseMap();
+            CreateMap<User, UserRegisterDto>()
+                .ReverseMap();
+            CreateMap<User, AuthUserDto>()
+                .ReverseMap();
+            CreateMap<User, UpdateUserDto>()
+                .ReverseMap();
         }
     }
 }

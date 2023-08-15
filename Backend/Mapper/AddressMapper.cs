@@ -10,8 +10,8 @@ namespace Backend.Mapper
         {
             CreateMap<Address, AddressDto>();
             CreateMap<AddAddressDto, Address>();
-            CreateMap<UpdateAddressDto, Address>();
-            CreateMap<Address, UpdateAddressDto>();
+            CreateMap<UpdateAddressDto, Address>()
+                .ReverseMap();
         }
     }
     
