@@ -3,51 +3,52 @@ using Backend.Models.Auths;
 
 namespace Backend.Services.Users
 {
+    /// <summary>
+    /// Provides methods to manage user information within the system.
+    /// </summary>
     public interface IUserService
     {
         /// <summary>
         /// Gets a user from the system based on the provided user object.
         /// </summary>
-        /// <param name="user"></param>
-        /// <returns>User's information</returns>
+        /// <param name="user">The user object used for retrieval.</param>
+        /// <returns>User's information if found, otherwise null.</returns>
         Task<User> GetUser(User user);
 
         /// <summary>
-        /// Gets a user's ID 
+        /// Gets the ID of the currently authenticated user.
         /// </summary>
-        /// <returns>User Id</returns>
+        /// <returns>User's ID.</returns>
         Task<int> GetUserId();
 
 
         /// <summary>
-        /// Gets a user based on the provided user ID 
+        /// Gets a user based on the provided user ID.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>User information</returns>
+        /// <param name="id">The ID of the user to retrieve.</param>
+        /// <returns>User information if found, otherwise null.</returns>
         Task<User> GetUserById(int id);
 
         /// <summary>
-        /// Adds a new user to the system based on the provided user object
+        /// Adds a new user to the system based on the provided user object.
         /// </summary>
-        /// <param name="newUser"></param>
-        /// <returns>User Id</returns>
+        /// <param name="newUser">The new user object to add.</param>
+        /// <returns>User ID of the added user.</returns>
         Task<int> AddUser(User newUser);
 
         /// <summary>
-        /// Deletes a user from the system based on the provided user ID
+        /// Deletes a user from the system based on the provided user ID.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>A boolean indicating the success or failure of the delete operation.</returns>
+        /// <param name="id">The ID of the user to delete.</param>
+        /// <returns>True if deletion is successful, otherwise false.</returns>
         Task<bool> DeleteUser(int id);
 
         /// <summary>
-        /// Updates an existing user in the system with the provided user id and information
+        /// Updates an existing user in the system with the provided user ID and information.
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="updateUser"></param>
-        /// <returns>User information</returns>
+        /// <param name="id">The ID of the user to update.</param>
+        /// <param name="updateUser">The updated user information.</param>
+        /// <returns>User information if update is successful, otherwise null.</returns>
         Task<User> UpdateUser(int id, UserRegisterDto updateUser);
-
-
     }
 }
