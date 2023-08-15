@@ -108,6 +108,37 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="newContact">The contact information to add.</param>
         /// <returns>The added contact if successful, or an error response.</returns>
+        /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     POST /api/contacts
+        ///     {
+        ///         "firstName": "Rosa",
+        ///         "lastName": "Diaz",
+        ///         "emailAddress": "rosadiaz@example.com",
+        ///         "createdAt": "2023-08-15T02:17:55.868Z",
+        ///         "contactNumbers": [
+        ///         {
+        ///             "id": 0,
+        ///             "contactId": 0,
+        ///             "number": "0912345789",
+        ///             "label": "Globe",
+        ///             "createdAt": "2023-08-15T02:17:55.868Z",
+        ///             "updatedAt": "2023-08-15T02:17:55.868Z"
+        ///         }
+        ///         ],
+        ///         addresses": [
+        ///         {
+        ///             "id": 0,
+        ///             "contactId": 0,
+        ///             "details": "Cebu City",
+        ///             "label": "Home",
+        ///             "createdAt": "2023-08-15T02:17:55.868Z",
+        ///             "updatedAt": "2023-08-15T02:17:55.868Z"
+        ///             }
+        ///         ]
+        ///     }
+        /// </remarks>
         [HttpPost]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -178,7 +209,18 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="contactId">The ID of the contact to update.</param>
         /// <param name="updatedContact">The updated contact information.</param>
+        ///  /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     PUT /api/contacts/{contactId}
+        ///     {
+        ///         "firstName": "Rosie",
+        ///         "lastName": "Diaz",
+        ///         "emailAddress": "rosie@example.com"
+        ///     }
+        /// </remarks>
         /// <returns>The updated contact information if successful, or an error response.</returns>
+        
         [HttpPut("{contactId}")]
         [Produces("application/json")]
         [Consumes("application/json")]
