@@ -107,6 +107,17 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="updateUser">The updated user information.</param>
         /// <returns>The updated user information if successful, or an error response.</returns>
+        /// /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     PUT /api/user
+        ///     {
+        ///         "firstName" : "Levi",
+        ///         "lastName" : "Ackerman",
+        ///         "userName" : "leviAckerman",
+        ///         "emailAddress" : "leviackerman@example.com"
+        ///     }
+        /// </remarks>
         [HttpPut]
         [Produces("application/json")]
         [Consumes("application/json")]
