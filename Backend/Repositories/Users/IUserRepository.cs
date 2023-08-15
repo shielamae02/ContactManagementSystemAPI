@@ -3,6 +3,9 @@ using Backend.Models.Auths;
 
 namespace Backend.Repositories.Users
 {
+    /// <summary>
+    /// Provides methods for user operations.
+    /// </summary>
     public interface IUserRepository
     {
         /// <summary>
@@ -30,14 +33,14 @@ namespace Backend.Repositories.Users
         /// Updates an existing user in the system with the provided user information.
         /// </summary>
         /// <param name="updateUser"></param>
-        /// <returns>A boolean indicatin the success or failure of the update operation.</returns>
+        /// <returns>A boolean indicating the success or failure of the update operation.</returns>
         Task<bool> UpdateUser(User updateUser);
 
         /// <summary>
         /// Deletes a user from the system based on the provided user ID
         /// </summary>
         /// <param name="id"></param>
-        /// <returns>A boolean indicatin the success or failure of the delete operation.</returns>
+        /// <returns>A boolean indicating the success or failure of the delete operation.</returns>
         Task<bool> DeleteUser(int id);
     }
 }
