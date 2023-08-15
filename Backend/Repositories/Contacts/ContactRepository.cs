@@ -1,27 +1,35 @@
 ﻿using Backend.Data;
 using Backend.Entities;
-using Backend.Exceptions;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.Contacts
 {
+    /// <summary>
+    /// Repository for managing contact data.
+    /// </summary>
     public class ContactRepository : IContactRepository
     {
         private readonly DataContext _context;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactRepository"/> class.
+        /// </summary>
+        /// <param name="context">The data context.</param>
         public ContactRepository(DataContext context)
         {
             _context = context;
         }
 
+        /// <inheritdoc/>
         public async Task<int> AddContact(Contact newContact)
-        { 
+        {
             _context.Contacts.Add(newContact);
             await _context.SaveChangesAsync();
             return newContact.Id;
         }
 
+
+        /// <inheritdoc/>
         public async Task<bool> DeleteContact(int userId, int contactId)
         {
             var db = _context.Contacts;
@@ -36,6 +44,7 @@ namespace Backend.Repositories.Contacts
             return true;
         }
 
+        /// <inheritdoc/>
         public async Task<ICollection<Contact>> GetContacts(int userId)
         {
             return await _context.Contacts
@@ -45,6 +54,7 @@ namespace Backend.Repositories.Contacts
                 .ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<Contact?> GetContact(int userId, int contactId)
         {
             return await _context.Contacts
@@ -54,6 +64,8 @@ namespace Backend.Repositories.Contacts
                 .FirstOrDefaultAsync(c => c.Id == contactId);
         }
 
+
+        /// <inheritdoc/>
         public async Task<bool> UpdateContact(int userId, Contact updateContact)
         {
             var contact = await _context.Contacts.FirstOrDefaultAsync(c => c.Id == updateContact.Id && c.UserId == userId);
