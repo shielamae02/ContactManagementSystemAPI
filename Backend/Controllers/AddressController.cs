@@ -80,6 +80,7 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="contactId">The ID of the contact.</param>
         /// <returns>A list of addresses if found, or an error response.</returns>
+        [HttpGet]
         public async Task<IActionResult> GetAddresses(int contactId)
         {
             try
@@ -194,6 +195,7 @@ namespace Backend.Controllers
         /// <param name="contactId">The ID of the contact.</param>
         /// <param name="addressId">The ID of the address to update.</param>
         /// <param name="updateAddress">The updated address information.</param>
+        /// <returns>The updated address if successful, or an error response.</returns>
         /// <remarks>
         /// Sample Request:
         /// 
@@ -202,7 +204,7 @@ namespace Backend.Controllers
         ///         "details": "1234 Main St, Talisay City",
         ///         "label": "Home"
         ///     }
-        /// </remarks>/// <returns>The updated address if successful, or an error response.</returns>
+        /// </remarks>
         
         [HttpPut("{addressId}")]
         public async Task<IActionResult> UpdateAddress(int contactId, int addressId, [FromBody] UpdateAddressDto updateAddress)

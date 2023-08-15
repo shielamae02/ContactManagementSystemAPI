@@ -218,7 +218,7 @@ namespace Backend.Controllers
         /// <param name="contactId">The ID of the contact.</param>
         /// <param name="contactNumberId">The ID of the contact number to update.</param>
         /// <param name="updateContactNumber">The updated contact number information.</param>
-        /// <returns>The updated contact number if successful, or an error response.</returns
+        /// <returns>The updated contact number if successful, or an error response.</returns>
         /// <remarks>
         /// Sample Request:
         /// 
@@ -258,6 +258,5 @@ namespace Backend.Controllers
                 return StatusCode(500, "Something went wrong.");
             }
         }
-
     }
 }

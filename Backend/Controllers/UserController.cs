@@ -107,7 +107,7 @@ namespace Backend.Controllers
         /// </summary>
         /// <param name="updateUser">The updated user information.</param>
         /// <returns>The updated user information if successful, or an error response.</returns>
-        /// /// <remarks>
+        /// <remarks>
         /// Sample Request:
         /// 
         ///     PUT /api/user
@@ -124,7 +124,7 @@ namespace Backend.Controllers
         [ProducesResponseType(typeof(UserRegisterDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateUser(UserRegisterDto updateUser)
+        public async Task<IActionResult> UpdateUser(UpdateUserDto updateUser)
         {
             try
             {
