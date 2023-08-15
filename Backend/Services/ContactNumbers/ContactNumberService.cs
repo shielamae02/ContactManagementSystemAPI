@@ -8,12 +8,23 @@ using Backend.Repositories.Contacts;
 
 namespace Backend.Services.ContactNumbers
 {
+
+    /// <summary>
+    /// Service for managing contact number operations.
+    /// </summary>
     public class ContactNumberService : IContactNumberService
     {
         private readonly IContactNumberRepository _contactNumberRepository;
         private readonly IContactRepository _contactRepository;
         private readonly IMapper _mapper;
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContactNumberService"/> class.
+        /// </summary>
+        /// <param name="mapper">The AutoMapper instance.</param>
+        /// <param name="contactNumberRepository">The contact number repository.</param>
+        /// <param name="contactRepository">The contact repository.</param>
         public ContactNumberService(IMapper mapper, IContactNumberRepository contactNumberRepository, IContactRepository contactRepository)
         {
             _contactNumberRepository = contactNumberRepository ?? throw new ArgumentNullException(nameof(contactNumberRepository));
@@ -21,6 +32,7 @@ namespace Backend.Services.ContactNumbers
             _contactRepository = contactRepository ?? throw new ArgumentNullException(nameof(contactRepository));
         }
 
+        /// <inheritdoc/>
         public async Task<ContactNumber> AddContactNumber(int userId, int contactId, AddContactNumberDto newContactNumber)
         {
             var contact = await _contactRepository.GetContact(userId, contactId);
@@ -35,6 +47,7 @@ namespace Backend.Services.ContactNumbers
             return contactNumber;
         }
 
+        /// <inheritdoc/>
         public async Task<bool> DeleteContactNumber(int userId, int contactId, int contactNumberId)
         {
             var contactNumber = await _contactNumberRepository.DeleteContactNumber(userId, contactId, contactNumberId);
@@ -45,6 +58,7 @@ namespace Backend.Services.ContactNumbers
             return contactNumber;
         }
 
+        /// <inheritdoc/>
         public async Task<ContactNumberDto> GetContactNumber(int userId, int contactId, int contactNumberId)
         {
             var contactNumber = await _contactNumberRepository.GetContactNumber(userId, contactId, contactNumberId);
@@ -55,6 +69,7 @@ namespace Backend.Services.ContactNumbers
             return _mapper.Map<ContactNumberDto>(contactNumber);
         }
 
+        /// <inheritdoc/>
         public async Task<ICollection<ContactNumberDto>> GetContactNumbers(int userId, int contactId)
         {
             var contactNumbers = await _contactNumberRepository.GetContactNumbers(userId, contactId);
@@ -65,6 +80,7 @@ namespace Backend.Services.ContactNumbers
             return contactNumbers.Select(c => _mapper.Map<ContactNumberDto>(c)).ToList();
         }
 
+        /// <inheritdoc/>
         public async Task<ContactNumberDto> UpdateContactNumber(int userId, int contactId, int contactNumberId, UpdateContactNumberDto updateContactNumber)
         {
             var db = await _contactNumberRepository.GetContactNumber(userId, contactId, contactNumberId);
