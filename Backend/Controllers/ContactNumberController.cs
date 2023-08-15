@@ -121,6 +121,16 @@ namespace Backend.Controllers
         /// <param name="contactId">The ID of the contact.</param>
         /// <param name="newContactNumber">The contact number to add.</param>
         /// <returns>The added contact number if successful, or an error response.</returns>
+        /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     POST /api/contacts/{contactId}/contactNumbers
+        ///     {
+        ///         "number": "09987654321",
+        ///         "label": "Smart",
+        ///     }
+        /// </remarks>
+        
         [HttpPost]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -209,6 +219,15 @@ namespace Backend.Controllers
         /// <param name="contactNumberId">The ID of the contact number to update.</param>
         /// <param name="updateContactNumber">The updated contact number information.</param>
         /// <returns>The updated contact number if successful, or an error response.</returns
+        /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     PUT /api/contacts/{contactId}/contactNumbers/{contactNumberId}
+        ///     {
+        ///         "number": "09123456789",
+        ///         "label": "Sun",
+        ///     }
+        /// </remarks>
         [HttpPut("{contactNumberId}")]
         [Produces("application/json")]
         [Consumes("application/json")]
