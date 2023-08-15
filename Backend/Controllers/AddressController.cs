@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
 {
+    /// <summary>
+    /// Controller for managing addresses for a specific contact.
+    /// </summary>
     [ApiController]
     [Route("api/contacts/{contactId}/address")]
     [Authorize]
@@ -24,6 +27,22 @@ namespace Backend.Controllers
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
+
+        /// <summary>
+        /// Adds a new address for a specific contact.
+        /// </summary>
+        /// <param name="contactId">The ID of the contact.</param>
+        /// <param name="newAddress">The address to add.</param>
+        /// <returns>The added address if successful, or an error response.</returns>
+        /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     POST /api/contacts/{contactId}/address
+        ///     {
+        ///         "details": "123 Main St",
+        ///         "label": "Home"
+        ///     }
+        /// </remarks>
         [HttpPost]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -56,7 +75,11 @@ namespace Backend.Controllers
             }
         }
 
-        [HttpGet]
+        /// <summary>
+        /// Gets all addresses for a specific contact.
+        /// </summary>
+        /// <param name="contactId">The ID of the contact.</param>
+        /// <returns>A list of addresses if found, or an error response.</returns>
         public async Task<IActionResult> GetAddresses(int contactId)
         {
             try
@@ -86,6 +109,13 @@ namespace Backend.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Gets a specific address for a specific contact.
+        /// </summary>
+        /// <param name="contactId">The ID of the contact.</param>
+        /// <param name="addressId">The ID of the address to retrieve.</param>
+        /// <returns>The address if found, or an error response.</returns>
         [HttpGet("{addressId}")]
         public async Task<IActionResult> GetAddress(int contactId, int addressId)
         {
@@ -116,6 +146,13 @@ namespace Backend.Controllers
             }
         }
 
+
+        /// <summary>
+        /// Deletes a specific address for a specific contact.
+        /// </summary>
+        /// <param name="contactId">The ID of the contact.</param>
+        /// <param name="addressId">The ID of the address to delete.</param>
+        /// <returns>A success message if the address is deleted, or an error response.</returns>
         [HttpDelete("{addressId}")]
         public async Task<IActionResult> DeleteAddress(int contactId, int addressId)
         {
@@ -151,6 +188,22 @@ namespace Backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates a specific address for a specific contact.
+        /// </summary>
+        /// <param name="contactId">The ID of the contact.</param>
+        /// <param name="addressId">The ID of the address to update.</param>
+        /// <param name="updateAddress">The updated address information.</param>
+        /// <remarks>
+        /// Sample Request:
+        /// 
+        ///     PUT /api/contacts/{contactId}/address/{addressId}
+        ///     {
+        ///         "details": "1234 Main St, Talisay City",
+        ///         "label": "Home"
+        ///     }
+        /// </remarks>/// <returns>The updated address if successful, or an error response.</returns>
+        
         [HttpPut("{addressId}")]
         public async Task<IActionResult> UpdateAddress(int contactId, int addressId, [FromBody] UpdateAddressDto updateAddress)
         {
