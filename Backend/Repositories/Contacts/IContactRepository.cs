@@ -2,6 +2,9 @@
 
 namespace Backend.Repositories.Contacts
 {
+    /// <summary>
+    /// Provides methods to manage user contacts.
+    /// </summary>
     public interface IContactRepository
     {
         /// <summary>
