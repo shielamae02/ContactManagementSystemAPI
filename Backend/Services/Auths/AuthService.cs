@@ -7,11 +7,21 @@ using Backend.Utils;
 
 namespace Backend.Services.Auths
 {
+    /// <summary>
+    /// Service for authentication-related operations.
+    /// </summary>
     public class AuthService : IAuthService
     {
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthService"/> class.
+        /// </summary>
+        /// <param name="mapper">The AutoMapper instance.</param>
+        /// <param name="configuration">The configuration.</param>
+        /// <param name="userService">The user service.</param>
         public AuthService(IMapper mapper, IConfiguration configuration, IUserService userService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -19,6 +29,7 @@ namespace Backend.Services.Auths
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
+        /// <inheritdoc/>
         public async Task<AuthUserDto> AuthLogin(UserLoginDto request)
         {
             var userModel = _mapper.Map<User>(request);
@@ -41,6 +52,7 @@ namespace Backend.Services.Auths
             return response;
         }
 
+        /// <inheritdoc/>
         public async Task<AuthUserDto> AuthRegister(UserRegisterDto request)
         {
             var user = _mapper.Map<User>(request);
