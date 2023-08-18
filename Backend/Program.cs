@@ -12,43 +12,43 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen( options =>
 {
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
+       $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
+
     options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
+
     options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Contact Management System API",
+        Contact = new OpenApiContact
+        {
+            Name = "Shiela Mae Q. Lepon",
+            Url = new Uri("https://github.com/shielamae02/ContactManagementSystemAPI.git")
+        }
+    });
 });
 
-builder.Services.AddAuthentication().AddJwtBearer(
-    options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            ValidateAudience = false,
-            ValidateIssuer = false,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration.GetSection("AppSettings:Token").Value!))
-        };
-    }
-);
 
+// Configure CORS (Cross-Origin Resource Sharing) settings for the application.
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -60,23 +60,8 @@ builder.Services.AddCors(options =>
         });
 });
 
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
-
-builder.Services.AddScoped<IAuthService, AuthService>();
-
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
-
-builder.Services.AddScoped<IContactRepository, ContactRepository>();
-builder.Services.AddScoped<IContactService, ContactService>();
-
-builder.Services.AddScoped<IContactNumberRepository, ContactNumberRepository>();
-builder.Services.AddScoped<IContactNumberService, ContactNumberService>();
-
-builder.Services.AddScoped<IAddressRepository, AddressRepository>();
-builder.Services.AddScoped<IAddressService, AddressService>();
-
-builder.Services.AddHttpContextAccessor();
+// Call ConfigureServices 
+ConfigureServices(builder.Services);
 
 var app = builder.Build();
 
@@ -90,11 +75,49 @@ if (app.Environment.IsDevelopment())
 app.UseCors("AllowSpecificOrigin");
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
+
+
+void ConfigureServices(IServiceCollection services)
+{
+    //Register the DBContext
+    services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+    //Register JWT Authentication
+    services.AddAuthentication().AddJwtBearer(
+    options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            ValidateAudience = false,
+            ValidateIssuer = false,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                builder.Configuration.GetSection("AppSettings:Token").Value!))
+        };
+    });
+
+    //Register HttpContextAccessor
+    builder.Services.AddHttpContextAccessor();
+
+
+    //Register Automapper
+    services.AddAutoMapper(typeof(Program).Assembly);
+
+    //Register Repositories
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IContactRepository, ContactRepository>();
+    builder.Services.AddScoped<IContactNumberRepository, ContactNumberRepository>();
+    builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+
+    //Register Services
+    builder.Services.AddScoped<IAuthService, AuthService>();
+    builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IContactService, ContactService>();
+    builder.Services.AddScoped<IContactNumberService, ContactNumberService>();
+    builder.Services.AddScoped<IAddressService, AddressService>();
+}

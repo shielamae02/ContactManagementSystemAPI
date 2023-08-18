@@ -1,4 +1,5 @@
 ﻿using Backend.Entities;
+using Backend.Models.ContactNumbers;
 using System.ComponentModel.DataAnnotations;
 
 namespace Backend.Models.Contacts
@@ -23,9 +24,9 @@ namespace Backend.Models.Contacts
         public string EmailAddress { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
-
-        public ICollection<ContactNumber>? ContactNumbers { get; set; }
-        public ICollection<Address>? Addresses { get; set; }
+        public List<AddContactNumberDto> ContactNumbers { get; set; }
+        //public ICollection<ContactNumber> ContactNumbers { get; set; } = new List<ContactNumber>();
+        //public ICollection<Address> Addresses { get; set; } = new List<Address>();
 
     }
 }

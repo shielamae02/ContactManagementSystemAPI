@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Backend.Utils;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net;
 using System.Text.Json.Serialization;
@@ -17,7 +18,7 @@ namespace Backend.Entities
         public User User { get; set; }
 
 
-        [Required]
+        [Required]    
         [MaxLength(50)]
         public string FirstName { get; set; } = string.Empty;
 
@@ -33,7 +34,7 @@ namespace Backend.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
 
-
+       [AtLeastOneContactNumber]
        public ICollection<ContactNumber> ContactNumbers { get; set; } = new List<ContactNumber>();
        public ICollection<Address> Addresses { get; set; } = new List<Address>();
     }

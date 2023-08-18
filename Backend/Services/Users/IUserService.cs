@@ -49,6 +49,6 @@ namespace Backend.Services.Users
         /// <param name="id">The ID of the user to update.</param>
         /// <param name="updateUser">The updated user information.</param>
         /// <returns>User information if update is successful, otherwise null.</returns>
-        Task<User> UpdateUser(int id, UserRegisterDto updateUser);
+        Task<User> UpdateUser(int id, UpdateUserDto updateUser);
     }
 }
