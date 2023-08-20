@@ -23,14 +23,16 @@ namespace Backend.Mapper
                 .ReverseMap();
 
         }
-
+        
         private string CapitalizeFirstLetter(string input)
         {
-            if (string.IsNullOrWhiteSpace(input))
+            string[] text = input.Split(" ");
+            for (int i=0; i<text.Length; i++)
             {
-                return input;
+                text[i] = char.ToUpper(text[i][0]) + text[i].Substring(1);
             }
-            return char.ToUpper(input[0]) + input.Substring(1);
+
+            return string.Join(" ", text);
         }
     }
 }
