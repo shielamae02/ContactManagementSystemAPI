@@ -8,10 +8,17 @@ namespace Backend.Mapper
     {
         public AddressMapper()
         {
+
             CreateMap<Address, AddressDto>()
                 .ReverseMap()
                 .ForMember(dest => dest.Details, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.Details)))
                 .ForMember(dest => dest.Label, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.Label)));
+
+            CreateMap<AddAddressDto, Address>()
+              .ReverseMap()
+              .ForMember(dest => dest.Details, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.Details)))
+              .ForMember(dest => dest.Label, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.Label)));
+
             CreateMap<UpdateAddressDto, Address>()
                 .ReverseMap()
                 .ForMember(dest => dest.Details, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.Details)))

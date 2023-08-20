@@ -9,20 +9,20 @@ namespace Backend.Mapper
         public ContactMapper()
         {
             CreateMap<Contact, ContactDto>()
+                .ReverseMap()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.FirstName)))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)))
-                .ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.EmailAddress)));
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)));
 
             CreateMap<AddContactDto, Contact>()
+                .ReverseMap()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.FirstName)))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)))
-                .ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.EmailAddress)));
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)));
+
 
             CreateMap<UpdateContactDto, Contact>()
                 .ReverseMap()
                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.FirstName)))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)))
-                .ForMember(dest => dest.EmailAddress, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.EmailAddress)));
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)));
 
         }
 
