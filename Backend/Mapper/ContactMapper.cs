@@ -14,9 +14,9 @@ namespace Backend.Mapper
                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)));
 
             CreateMap<AddContactDto, Contact>()
-                .ReverseMap()
-                .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.FirstName)))
-                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)));
+                 .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.FirstName)))
+                 .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => CapitalizeFirstLetter(src.LastName)));
+
 
 
             CreateMap<UpdateContactDto, Contact>()
@@ -28,12 +28,14 @@ namespace Backend.Mapper
 
         private string CapitalizeFirstLetter(string input)
         {
+            Console.WriteLine($"Input: {input}");
             string[] text = input.Split(" ");
             for (int i = 0; i < text.Length; i++)
             {
-                text[i] = char.ToUpper(text[i][0]) + text[i].Substring(1);
+                text[i] = char.ToUpper(text[i][0]) + text[i][1..];
             }
 
+            Console.WriteLine($"Input: {string.Join(" ", text)}");
             return string.Join(" ", text);
         }
     }

@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Backend.Models.Addresses;
+using Backend.Models.ContactNumbers;
+using System.ComponentModel.DataAnnotations;
 
 namespace Backend.Models.Contacts
 {
@@ -19,5 +21,8 @@ namespace Backend.Models.Contacts
         [EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string EmailAddress { get; set; } = string.Empty;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
+
+        public List<UpdateContactNumberDto> ContactNumbers { get; set; } = new List<UpdateContactNumberDto>();
+        public List<UpdateAddressDto> Addresses { get; set; } = new List<UpdateAddressDto>();
     }
 }

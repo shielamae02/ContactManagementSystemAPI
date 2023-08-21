@@ -34,7 +34,6 @@ namespace Backend.Entities
         public DateTime UpdatedAt { get; set; } = DateTime.Now;
 
 
-       [AtLeastOneContactNumber]
        public ICollection<ContactNumber> ContactNumbers { get; set; } = new List<ContactNumber>();
        public ICollection<Address> Addresses { get; set; } = new List<Address>();
     }
