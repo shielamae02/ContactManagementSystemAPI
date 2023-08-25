@@ -1,4 +1,5 @@
-﻿using Backend.Exceptions.ContactNumbers;
+﻿using Backend.Data;
+using Backend.Exceptions.ContactNumbers;
 using Backend.Exceptions.Contacts;
 using Backend.Models.Contacts;
 using Backend.Services.Contacts;
@@ -16,9 +17,11 @@ namespace Backend.Controllers
     [Authorize]
     public class ContactController : ControllerBase
     {
+        private readonly DataContext _context;
         private readonly IContactService _contactService;
         private readonly IUserService _userService;
         private readonly ILogger<ContactController> _logger;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ContactController"/> class.
@@ -26,8 +29,9 @@ namespace Backend.Controllers
         /// <param name="contactService">The service for managing contacts.</param>
         /// <param name="logger">The logger instance for logging.</param>
         /// <param name="userService">The service for user-related operations.</param>
-        public ContactController(IContactService contactService, ILogger<ContactController> logger, IUserService userService)
+        public ContactController(IContactService contactService, ILogger<ContactController> logger, IUserService userService, DataContext context)
         {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
             _contactService = contactService ?? throw new ArgumentNullException(nameof(contactService));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
@@ -214,13 +218,13 @@ namespace Backend.Controllers
         /// 
         ///     PUT /api/contacts/{contactId}
         ///     {
-        ///         "firstName": "Rosie",
+        ///         "firstName": "Rose",
         ///         "lastName": "Diaz",
         ///         "emailAddress": "rosie@example.com"
         ///     }
         /// </remarks>
         /// <returns>The updated contact information if successful, or an error response.</returns>
-        
+
         [HttpPut("{contactId}")]
         [Produces("application/json")]
         [Consumes("application/json")]
@@ -246,5 +250,9 @@ namespace Backend.Controllers
                 return StatusCode(500, "Something went wrong.");
             }
         }
+
+
+
+
     }
 }

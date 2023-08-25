@@ -114,8 +114,7 @@ namespace Backend.Controllers
         ///     {
         ///         "firstName" : "Levi",
         ///         "lastName" : "Ackerman",
-        ///         "userName" : "leviAckerman",
-        ///         "emailAddress" : "leviackerman@example.com"
+        ///         "userName" : "leviAckerman"
         ///     }
         /// </remarks>
         [HttpPut]

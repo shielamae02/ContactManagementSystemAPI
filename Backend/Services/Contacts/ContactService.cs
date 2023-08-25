@@ -21,6 +21,8 @@ namespace Backend.Services.Contacts
         {
             var contact = _mapper.Map<Contact>(newContact);
             contact.UserId = userId;
+
+
             contact.Id = await _contactRepository.AddContact(contact);
             return contact;
         }

@@ -1,11 +1,7 @@
 using Backend.Data;
-using Backend.Repositories.Addresses;
-using Backend.Repositories.ContactNumbers;
 using Backend.Repositories.Contacts;
 using Backend.Repositories.Users;
-using Backend.Services.Addresses;
 using Backend.Services.Auths;
-using Backend.Services.ContactNumbers;
 using Backend.Services.Contacts;
 using Backend.Services.Users;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddSwaggerGen( options =>
+builder.Services.AddSwaggerGen(options =>
 {
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory,
        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml"));
@@ -106,18 +102,15 @@ void ConfigureServices(IServiceCollection services)
 
 
     //Register Automapper
+
     services.AddAutoMapper(typeof(Program).Assembly);
 
     //Register Repositories
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IContactRepository, ContactRepository>();
-    builder.Services.AddScoped<IContactNumberRepository, ContactNumberRepository>();
-    builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
     //Register Services
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IContactService, ContactService>();
-    builder.Services.AddScoped<IContactNumberService, ContactNumberService>();
-    builder.Services.AddScoped<IAddressService, AddressService>();
 }

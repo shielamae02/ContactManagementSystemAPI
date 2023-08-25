@@ -49,8 +49,6 @@ namespace Backend.Repositories.Contacts
         {
             return await _context.Contacts
                 .Where(c => c.UserId == userId)
-                .Include(c => c.ContactNumbers)
-                .Include(c => c.Addresses)
                 .ToListAsync();
         }
 
@@ -59,8 +57,6 @@ namespace Backend.Repositories.Contacts
         {
             return await _context.Contacts
                 .Where(c => c.UserId == userId)
-                .Include(c => c.ContactNumbers)
-                .Include(c => c.Addresses)
                 .FirstOrDefaultAsync(c => c.Id == contactId);
         }
 
@@ -77,7 +73,20 @@ namespace Backend.Repositories.Contacts
             contact.UserId = updateContact.UserId;
             contact.FirstName = updateContact.FirstName;
             contact.LastName = updateContact.LastName;
-            contact.EmailAddress = updateContact.EmailAddress;
+            contact.Favorite = updateContact.Favorite;
+            contact.ContactNumber1  = updateContact.ContactNumber1;
+            contact.ContactNumber2  = updateContact.ContactNumber2;
+            contact.ContactNumber3  = updateContact.ContactNumber3;
+            contact.NumberLabel1 = updateContact.NumberLabel1;
+            contact.NumberLabel2 = updateContact.NumberLabel2;
+            contact.NumberLabel3 = updateContact.NumberLabel3;
+
+            contact.AddressDetails1 = updateContact.AddressDetails1;
+            contact.AddressDetails2 = updateContact.AddressDetails2;
+            contact.AddressLabel1 = updateContact.AddressLabel1;
+            contact.AddressLabel2 = updateContact.AddressLabel2;
+
+
             contact.UpdatedAt = updateContact.UpdatedAt;
 
             await _context.SaveChangesAsync();
