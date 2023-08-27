@@ -4,36 +4,59 @@ using Backend.Exceptions;
 using Backend.Exceptions.Contacts;
 using Backend.Models.Contacts;
 using Backend.Repositories.Contacts;
+using Backend.Services.ContactAudits;
+using Backend.Services.Users;
 
 namespace Backend.Services.Contacts
 {
     public class ContactService : IContactService
     {
         private readonly IContactRepository _contactRepository;
+        private readonly IContactAuditService _contactAuditService;
         private readonly IMapper _mapper;
-        public ContactService(IContactRepository contactRepository, IMapper mapper)
+        private readonly IUserService _userService;
+
+        public ContactService(IContactRepository contactRepository, IMapper mapper, IContactAuditService contactAuditService, IUserService userService)
         {
-            _contactRepository = contactRepository;
-            _mapper = mapper;
+            _contactRepository = contactRepository ?? throw new ArgumentNullException(nameof(contactRepository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _contactAuditService = contactAuditService ?? throw new ArgumentNullException(nameof(contactAuditService));
+            _userService = userService ?? throw new ArgumentNullException(nameof(userService));
         }
 
         public async Task<Contact> AddContact(int userId, AddContactDto newContact)
         {
+            var user = await _userService.GetUserById(userId);
             var contact = _mapper.Map<Contact>(newContact);
             contact.UserId = userId;
 
 
             contact.Id = await _contactRepository.AddContact(contact);
+
+            await _contactAuditService.AuditContact(
+                user,
+                $"User {user.FirstName} {user.LastName} added a contact.",
+                "Create"
+             );
+
             return contact;
         }
 
         public async Task<bool> DeleteContact(int userId, int contactId)
         {
+            var user = await _userService.GetUserById(userId);
             var contact = await _contactRepository.DeleteContact(userId, contactId);
             if (!contact)
             {
                 throw new ContactDeletionFailedException("An error occurred while attempting to delete the contact.");
             }
+
+            await _contactAuditService.AuditContact(
+               user,
+               $"User {user.FirstName} {user.LastName} deleted a contact with Id {contactId}.",
+               "Delete"
+            );
+
             return contact;
         }
 
@@ -44,6 +67,7 @@ namespace Backend.Services.Contacts
             {
                 throw new ContactNotFoundException("Contact not found.");
             }
+
             return _mapper.Map<ContactDto>(contact);
         }
 
@@ -59,6 +83,7 @@ namespace Backend.Services.Contacts
 
         public async Task<ContactDto> UpdateContact(int userId, int contactId, UpdateContactDto updateContact)
         {
+            var user = await _userService.GetUserById(userId);
             var db = await _contactRepository.GetContact(userId, contactId);
             if (db is null)
             {
@@ -73,6 +98,12 @@ namespace Backend.Services.Contacts
             {
                 throw new ContactUpdateFailedException("Contact update failed.");
             }
+
+            await _contactAuditService.AuditContact(
+               user,
+               $"User {user.FirstName} {user.LastName} updated a contact with Id {contactId}.",
+               "Update"
+            );
 
             return _mapper.Map<ContactDto>(dbContact);
         }
