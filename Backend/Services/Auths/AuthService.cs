@@ -2,6 +2,7 @@
 using Backend.Entities;
 using Backend.Exceptions.Users;
 using Backend.Models.Auths;
+using Backend.Services.UserAuditService;
 using Backend.Services.Users;
 using Backend.Utils;
 
@@ -15,6 +16,7 @@ namespace Backend.Services.Auths
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly IConfiguration _configuration;
+        private readonly IUserAuditService _userAuditService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthService"/> class.
@@ -22,11 +24,12 @@ namespace Backend.Services.Auths
         /// <param name="mapper">The AutoMapper instance.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="userService">The user service.</param>
-        public AuthService(IMapper mapper, IConfiguration configuration, IUserService userService)
+        public AuthService(IMapper mapper, IConfiguration configuration, IUserService userService, IUserAuditService userAuditService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _userService = userService ?? throw new ArgumentNullException(nameof(userService));
+            _userAuditService = userAuditService ?? throw new ArgumentNullException(nameof(userAuditService));
         }
 
         /// <inheritdoc/>
@@ -41,6 +44,7 @@ namespace Backend.Services.Auths
             }
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password, user.PasswordSalt);
+
             if (!user.Password.Equals(passwordHash))
             {
                 throw new UserAuthenticationFailedException("Incorrect password.");
@@ -48,6 +52,12 @@ namespace Backend.Services.Auths
 
             var response = _mapper.Map<AuthUserDto>(user);
             response.Token = TokenBuilder.AccessToken(_configuration, user);
+
+            await _userAuditService.UserAuthenticationAudit(
+                user,
+                $"User {user.FirstName} {user.LastName} logged in.",
+                "Log in"
+              );
 
             return response;
         }
@@ -73,6 +83,12 @@ namespace Backend.Services.Auths
 
             var response = _mapper.Map<AuthUserDto>(newUser);
             response.Token = TokenBuilder.AccessToken(_configuration, newUser);
+
+            await _userAuditService.UserAuthenticationAudit(
+                user,
+                $"User {user.FirstName} {user.LastName} created an account.",
+                "Sign up"
+            );
 
             return response;
         }

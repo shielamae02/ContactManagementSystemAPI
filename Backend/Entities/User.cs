@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Backend.Entities
 {
+    [Table("Users")]
     public class User
     {
         [Key]
@@ -31,8 +33,6 @@ namespace Backend.Entities
         [Required]
         [StringLength(150)]
         public string PasswordSalt { get; set; } = string.Empty;
-
-        //public int NumberOfContacts => Contacts.Count;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime UpdatedAt { get; set; } = DateTime.Now;

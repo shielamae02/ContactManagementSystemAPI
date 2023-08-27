@@ -2,7 +2,10 @@
 using Backend.Entities;
 using Backend.Exceptions.Users;
 using Backend.Models.Auths;
+using Backend.Repositories.UserAudits;
 using Backend.Repositories.Users;
+using Backend.Services.UserAuditService;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Backend.Services.Users
@@ -15,6 +18,7 @@ namespace Backend.Services.Users
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly IUserAuditService _userAuditService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserService"/> class.
@@ -22,11 +26,12 @@ namespace Backend.Services.Users
         /// <param name="mapper">The AutoMapper instance.</param>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="contextAccessor">The HTTP context accessor.</param>
-        public UserService(IMapper mapper, IUserRepository userRepository, IHttpContextAccessor contextAccessor)
+        public UserService(IMapper mapper, IUserRepository userRepository, IHttpContextAccessor contextAccessor, IUserAuditService userAuditService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _userRepository = userRepository ?? throw new ArgumentNullException(nameof(userRepository));
             _contextAccessor = contextAccessor ?? throw new ArgumentNullException(nameof(contextAccessor));
+            _userAuditService = userAuditService ?? throw new ArgumentNullException(nameof(userAuditService));
         }
 
         /// <inheritdoc/>
@@ -41,10 +46,19 @@ namespace Backend.Services.Users
         public async Task<bool> DeleteUser(int id)
         {
             var user = await _userRepository.DeleteUser(id);
+            var dbUser = await _userRepository.GetUserById(id);
             if (!user)
             {
                 throw new UserDeletionFailedException("An error occurred while attempting to delete the user.");
             }
+
+            await _userAuditService.UserAuthenticationAudit(
+               dbUser,
+               $"User with ID {id} deleted his/her account.",
+               "Delete"
+           );
+
+
             return user;
         }
 
@@ -63,6 +77,7 @@ namespace Backend.Services.Users
             {
                 throw new UserNotFoundException("User not found.");
             }
+
             return _mapper.Map<User>(user);
         }
 
@@ -95,6 +110,15 @@ namespace Backend.Services.Users
             {
                 throw new UserUpdateFailedException("User update failed.");
             }
+
+            var response = _mapper.Map<GetUserProfile>(result);
+            response.Id = dbUser.Id;
+
+            //await _userAuditService.UserAuthenticationAudit(
+            //        _mapper.Map<User>(response),
+            //        $"User updated profile.",
+            //        "Update"
+            //    );
 
             return _mapper.Map<User>(dbUser);
 

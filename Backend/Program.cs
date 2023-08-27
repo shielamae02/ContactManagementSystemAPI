@@ -1,8 +1,10 @@
 using Backend.Data;
 using Backend.Repositories.Contacts;
+using Backend.Repositories.UserAudits;
 using Backend.Repositories.Users;
 using Backend.Services.Auths;
 using Backend.Services.Contacts;
+using Backend.Services.UserAuditService;
 using Backend.Services.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -108,9 +110,11 @@ void ConfigureServices(IServiceCollection services)
     //Register Repositories
     builder.Services.AddScoped<IUserRepository, UserRepository>();
     builder.Services.AddScoped<IContactRepository, ContactRepository>();
+    builder.Services.AddScoped<IUserAuditRepository, UserAuditRepository>();
 
     //Register Services
     builder.Services.AddScoped<IAuthService, AuthService>();
     builder.Services.AddScoped<IUserService, UserService>();
     builder.Services.AddScoped<IContactService, ContactService>();
+    builder.Services.AddScoped<IUserAuditService, UserAuditService>();
 }

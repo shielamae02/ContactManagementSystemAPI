@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace Backend.Entities
 {
+    [Table("Contacts")]
     public class Contact
     {
         [Key]
@@ -16,50 +17,50 @@ namespace Backend.Entities
         public User User { get; set; }
 
 
-        [MaxLength(50)]
+        [StringLength(50)]
         public string FirstName { get; set; } = string.Empty;
 
-        [MaxLength(50)]
+        [StringLength(50)]
         public string LastName { get; set; } = string.Empty;
 
-        [MaxLength(100)]
+        [StringLength(100)]
         public string EmailAddress { get; set; } = string.Empty;
 
         public bool Favorite { get; set; } = false;
 
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string ContactNumber1 { get; set; } = string.Empty;
 
-        [MaxLength(20)]
+        [StringLength(20)]
         public string NumberLabel1 { get; set; } = string.Empty;
 
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string? ContactNumber2 { get; set; } = string.Empty;
 
-        [MaxLength(20)]
+        [StringLength(20)]
         public string? NumberLabel2 { get; set; } = string.Empty;
 
 
-        [MaxLength(15)]
+        [StringLength(15)]
         public string? ContactNumber3 { get; set; } = string.Empty;
 
-        [MaxLength(20)]
+        [StringLength(20)]
         public string? NumberLabel3 { get; set; } = string.Empty;
 
 
 
-        [MaxLength(100)]
+        [StringLength(100)]
         public string AddressDetails1 { get; set; } = string.Empty;
 
-        [MaxLength(20)]
+        [StringLength(20)]
         public string AddressLabel1 { get; set; } = string.Empty;
 
-        [MaxLength(100)]
+        [StringLength(100)]
         public string? AddressDetails2 { get; set; } = string.Empty;
 
-        [MaxLength(20)]
+        [StringLength(20)]
         public string? AddressLabel2 { get; set; } = string.Empty;
 
 

@@ -49,6 +49,8 @@ namespace Backend.Repositories.Contacts
         {
             return await _context.Contacts
                 .Where(c => c.UserId == userId)
+                .OrderBy(c => c.FirstName)
+                .ThenBy(c => c.LastName)
                 .ToListAsync();
         }
 
