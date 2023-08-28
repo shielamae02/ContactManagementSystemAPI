@@ -6,6 +6,7 @@ using Backend.Models.Contacts;
 using Backend.Repositories.Contacts;
 using Backend.Services.ContactAudits;
 using Backend.Services.Users;
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace Backend.Services.Contacts
 {
@@ -106,6 +107,22 @@ namespace Backend.Services.Contacts
             );
 
             return _mapper.Map<ContactDto>(dbContact);
+        }
+
+        public async Task<bool> UpdateUserContactProperty(User user, int contactId, JsonPatchDocument<Contact> request)
+        {
+            var contact = await _contactRepository.GetContact(user.Id, contactId);
+            if(contact is null)
+            {
+                throw new ContactNotFoundException($"Contact with ID {contactId} not found.");
+            }
+
+            var result = await _contactRepository.UpdateContactProperty(contact, request);
+            if (!result)
+            {
+                throw new Exception("Failed to update contact.");
+            }
+            return result;
         }
     }
 }

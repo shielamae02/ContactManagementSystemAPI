@@ -96,13 +96,13 @@ namespace Backend.Repositories.Contacts
             return true;
         }
 
-        
+         
         /// <inheritdoc />
         public async Task<bool> UpdateContactProperty(Contact contact, JsonPatchDocument<Contact> request)
         {
             request.ApplyTo(contact);
             var result = await _context.SaveChangesAsync();
-            return result > 0;
+            return true;
 
         }
     }
