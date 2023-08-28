@@ -111,8 +111,8 @@ namespace Backend.Services.Users
                 throw new UserUpdateFailedException("User update failed.");
             }
 
-            var response = _mapper.Map<GetUserProfile>(result);
-            response.Id = dbUser.Id;
+            //var response = _mapper.Map<GetUserProfile>(result);
+            //response.Id = dbUser.Id;
 
             //await _userAuditService.UserAuthenticationAudit(
             //        _mapper.Map<User>(response),

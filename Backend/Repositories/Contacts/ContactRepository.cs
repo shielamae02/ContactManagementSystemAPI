@@ -1,5 +1,6 @@
 ﻿using Backend.Data;
 using Backend.Entities;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 
 namespace Backend.Repositories.Contacts
@@ -93,6 +94,16 @@ namespace Backend.Repositories.Contacts
 
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        
+        /// <inheritdoc />
+        public async Task<bool> UpdateContactProperty(Contact contact, JsonPatchDocument<Contact> request)
+        {
+            request.ApplyTo(contact);
+            var result = await _context.SaveChangesAsync();
+            return result > 0;
+
         }
     }
 }
