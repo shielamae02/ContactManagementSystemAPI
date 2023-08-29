@@ -1,5 +1,4 @@
-﻿using Azure;
-using Backend.Entities;
+﻿using Backend.Entities;
 using Backend.Models.Contacts;
 using Microsoft.AspNetCore.JsonPatch;
 

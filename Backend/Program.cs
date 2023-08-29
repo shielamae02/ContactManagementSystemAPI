@@ -22,7 +22,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-
+//hello
 
 
 
@@ -92,7 +92,7 @@ app.Run();
 void ConfigureServices(IServiceCollection services)
 {
     //Register the DBContext
-    services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    services.AddDbContext<DataContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     //Register JWT Authentication
     services.AddAuthentication().AddJwtBearer(
