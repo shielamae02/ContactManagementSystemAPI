@@ -34,29 +34,28 @@ namespace Backend.Services.Contacts
 
             contact.Id = await _contactRepository.AddContact(contact);
 
-            await _contactAuditService.AuditContact(
-                user,
-                $"User {user.FirstName} {user.LastName} added a contact.",
-                "Create"
-             );
+            //await _contactAuditService.AuditContact(
+            //    user,
+            //    $"User {user.FirstName} {user.LastName} added a contact.",
+            //    "Create"
+            // );
 
             return contact;
         }
 
         public async Task<bool> DeleteContact(int userId, int contactId)
         {
-            var user = await _userService.GetUserById(userId);
             var contact = await _contactRepository.DeleteContact(userId, contactId);
             if (!contact)
             {
                 throw new ContactDeletionFailedException("An error occurred while attempting to delete the contact.");
             }
 
-            await _contactAuditService.AuditContact(
-               user,
-               $"User {user.FirstName} {user.LastName} deleted a contact with Id {contactId}.",
-               "Delete"
-            );
+            //await _contactAuditService.AuditContact(
+            //   user,
+            //   $"User {user.FirstName} {user.LastName} deleted a contact with Id {contactId}.",
+            //   "Delete"
+            //);
 
             return contact;
         }
@@ -100,11 +99,11 @@ namespace Backend.Services.Contacts
                 throw new ContactUpdateFailedException("Contact update failed.");
             }
 
-            await _contactAuditService.AuditContact(
-               user,
-               $"User {user.FirstName} {user.LastName} updated a contact with Id {contactId}.",
-               "Update"
-            );
+            //await _contactAuditService.AuditContact(
+            //   user,
+            //   $"User {user.FirstName} {user.LastName} updated a contact with Id {contactId}.",
+            //   "Update"
+            //);
 
             return _mapper.Map<ContactDto>(dbContact);
         }

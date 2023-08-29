@@ -115,7 +115,7 @@ namespace Backend.Services.Users
 
             await _userAuditService.UserAuthenticationAudit(
                 user,
-                $"User {user.FirstName} {user.LastName} updated profile.",
+                $"User {user.FirstName} {user.LastName} updated his/her profile.",
                 "Update"
             );
 

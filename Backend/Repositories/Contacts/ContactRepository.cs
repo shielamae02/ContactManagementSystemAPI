@@ -18,7 +18,7 @@ namespace Backend.Repositories.Contacts
         /// <param name="context">The data context.</param>
         public ContactRepository(DataContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         /// <inheritdoc/>
@@ -41,7 +41,18 @@ namespace Backend.Repositories.Contacts
             }
 
             db.Remove(contact);
-            await _context.SaveChangesAsync();
+            try
+            {
+                // Code that saves changes to the database here
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                // Log the exception and its inner exception(s)
+                Console.WriteLine("An error occurred while saving changes:");
+                Console.WriteLine(ex.ToString());
+            }
+
             return true;
         }
 

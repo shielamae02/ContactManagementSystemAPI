@@ -85,7 +85,7 @@ namespace Backend.Services.Auths
             response.Token = TokenBuilder.AccessToken(_configuration, newUser);
 
             await _userAuditService.UserAuthenticationAudit(
-                user,
+                newUser,
                 $"User {user.FirstName} {user.LastName} created an account.",
                 "Sign up"
             );
