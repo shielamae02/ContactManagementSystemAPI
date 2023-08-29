@@ -52,6 +52,6 @@ namespace Backend.Services.Contacts
         /// <returns>Contact data transfer object if update is successful, otherwise null.</returns>
         Task<ContactDto> UpdateContact(int userId, int contactId, UpdateContactDto updateContact);
 
-        Task<bool> UpdateUserContactProperty(User user, int contactId, JsonPatchDocument<Contact> request);
+        Task<bool> UpdateContactProperty(User user, int contactId, JsonPatchDocument<Contact> request);
     }
 }

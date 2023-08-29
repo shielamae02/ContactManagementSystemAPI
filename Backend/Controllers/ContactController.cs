@@ -1,10 +1,12 @@
 ﻿using Backend.Data;
+using Backend.Entities;
 using Backend.Exceptions.ContactNumbers;
 using Backend.Exceptions.Contacts;
 using Backend.Models.Contacts;
 using Backend.Services.Contacts;
 using Backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -237,6 +239,34 @@ namespace Backend.Controllers
             {
                 var userId = await _userService.GetUserId();
                 var contact = await _contactService.UpdateContact(userId, contactId, updatedContact);
+                return Ok(contact);
+            }
+            catch (ContactUpdateFailedException ex)
+            {
+                _logger.LogError(ex, "Contact update failed.");
+                return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Something went wrong.");
+                return StatusCode(500, "Something went wrong.");
+            }
+        }
+
+
+        [HttpPatch("{contactId}")]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(ContactDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateContactProperty([FromRoute] int contactId, [FromBody]JsonPatchDocument<Contact> request)
+        {
+            try
+            {
+                var userId = await _userService.GetUserId();
+                var user = await _userService.GetUserById(userId);
+                var contact = await _contactService.UpdateContactProperty(user, contactId, request);
                 return Ok(contact);
             }
             catch (ContactUpdateFailedException ex)

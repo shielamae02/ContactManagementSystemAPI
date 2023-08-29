@@ -102,6 +102,7 @@ namespace Backend.Services.Users
         /// <inheritdoc/>
         public async Task<User> UpdateUser(int id, UpdateUserDto updateUser)
         {
+            var user = await GetUserById(id);
             var dbUser = _mapper.Map<User>(updateUser);
             dbUser.Id = id;
 
@@ -111,17 +112,14 @@ namespace Backend.Services.Users
                 throw new UserUpdateFailedException("User update failed.");
             }
 
-            //var response = _mapper.Map<GetUserProfile>(result);
-            //response.Id = dbUser.Id;
 
-            //await _userAuditService.UserAuthenticationAudit(
-            //        _mapper.Map<User>(response),
-            //        $"User updated profile.",
-            //        "Update"
-            //    );
+            await _userAuditService.UserAuthenticationAudit(
+                user,
+                $"User {user.FirstName} {user.LastName} updated profile.",
+                "Update"
+            );
 
             return _mapper.Map<User>(dbUser);
-
         }
     }
 }

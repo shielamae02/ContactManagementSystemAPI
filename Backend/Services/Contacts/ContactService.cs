@@ -109,7 +109,7 @@ namespace Backend.Services.Contacts
             return _mapper.Map<ContactDto>(dbContact);
         }
 
-        public async Task<bool> UpdateUserContactProperty(User user, int contactId, JsonPatchDocument<Contact> request)
+        public async Task<bool> UpdateContactProperty(User user, int contactId, JsonPatchDocument<Contact> request)
         {
             var contact = await _contactRepository.GetContact(user.Id, contactId);
             if(contact is null)
