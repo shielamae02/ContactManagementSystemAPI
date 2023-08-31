@@ -1,5 +1,4 @@
 ﻿using Backend.Models.Auths;
-using Microsoft.AspNetCore.Identity;
 
 namespace Backend.Services.Auths
 {

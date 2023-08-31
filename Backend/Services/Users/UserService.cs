@@ -2,10 +2,8 @@
 using Backend.Entities;
 using Backend.Exceptions.Users;
 using Backend.Models.Auths;
-using Backend.Repositories.UserAudits;
 using Backend.Repositories.Users;
 using Backend.Services.UserAuditService;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Backend.Services.Users
@@ -26,6 +24,7 @@ namespace Backend.Services.Users
         /// <param name="mapper">The AutoMapper instance.</param>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="contextAccessor">The HTTP context accessor.</param>
+        /// <param name="userAuditService">The user audit service.</param>
         public UserService(IMapper mapper, IUserRepository userRepository, IHttpContextAccessor contextAccessor, IUserAuditService userAuditService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));

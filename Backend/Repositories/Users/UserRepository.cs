@@ -20,7 +20,7 @@ namespace Backend.Repositories.Users
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
-            
+
 
         /// <inheritdoc/>
         public async Task<int> AddUser(User newUser)

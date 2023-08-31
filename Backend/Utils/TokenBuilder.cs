@@ -6,8 +6,17 @@ using System.Text;
 
 namespace Backend.Utils
 {
+    /// <summary>
+    /// Utility class for building access tokens.
+    /// </summary>
     public class TokenBuilder
     {
+        /// <summary>
+        /// Generates an access token for a user.
+        /// </summary>
+        /// <param name="configuration">The application configuration.</param>
+        /// <param name="user">The user for whom the access token is generated.</param>
+        /// <returns>The generated access token as a string.</returns>
         public static string AccessToken(IConfiguration configuration, User user)
         {
             List<Claim> claims = new List<Claim>
@@ -22,8 +31,8 @@ namespace Backend.Utils
 
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(3),
-                signingCredentials : credentials
+                expires: DateTime.Now.AddDays(1),
+                signingCredentials: credentials
             );
 
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);

@@ -2,14 +2,12 @@
 using Backend.Models.Auths;
 using Backend.Services.Auths;
 using Microsoft.AspNetCore.Mvc;
-using System.Web.Http.Cors;
 
 namespace Backend.Controllers
 {
     /// <summary>
     /// Controller for user authentication operations.
     /// </summary>
-    [EnableCors(origins: "http://localhost:5173", headers: "*", methods: "*")]
     [ApiController]
     [Route("api/auth")]
     public class AuthController : ControllerBase
@@ -39,8 +37,8 @@ namespace Backend.Controllers
         /// 
         ///     POST /api/auth/login
         ///     {
-        ///         "emailAddress" : "junghwan@example.com",
-        ///         "password" : "junghwan"
+        ///         "emailAddress" : "hello@example.com",
+        ///         "password" : "helloworld"
         ///     }
         /// </remarks>
         [HttpPost("login")]
@@ -67,7 +65,7 @@ namespace Backend.Controllers
                 return NotFound(ex.Message);
             }
             catch (UserAuthenticationFailedException ex)
-            { 
+            {
                 _logger.LogError(ex, "Incorrect password.");
                 return Unauthorized(ex.Message);
             }
@@ -89,12 +87,12 @@ namespace Backend.Controllers
         ///
         ///     POST /api/auth/register
         ///     {
-        ///         "firstName": "Amy",
-        ///         "lastName": "Santiago",
-        ///         "userName": "amySantiago",
-        ///          "emailAddress": "amysantiago@example.com",
-        ///         "password": "amysantiago",
-        ///         "confirmPassword": "amysantiago"
+        ///         "firstName": "Hello",
+        ///         "lastName": "World",
+        ///         "userName": "hello_world",
+        ///          "emailAddress": "helloworld@example.com",
+        ///         "password": "helloworld!!",
+        ///         "confirmPassword": "helloworld!!"
         ///     }
         /// </remarks>
         [HttpPost("register")]

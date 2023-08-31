@@ -45,8 +45,5 @@ namespace Backend.Repositories.Contacts
         /// <param name="contactId"></param>
         /// <returns>A boolean indicating the success or failure of the deletion operation.</returns>
         Task<bool> DeleteContact(int userId, int contactId);
-
-
-        Task<bool> UpdateContactProperty(Contact contact, JsonPatchDocument<Contact> request);
     }
 }

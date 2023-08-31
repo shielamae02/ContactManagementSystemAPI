@@ -46,7 +46,6 @@ public class UpdateContactDto
     public string? NumberLabel3 { get; set; } = string.Empty;
 
 
-
     [Required(ErrorMessage = "At least one address is required.")]
     [MinLength(2, ErrorMessage = "Address details must be at least 2 characters long.")]
     [MaxLength(100, ErrorMessage = "Last name must not exceed 100 characters.")]

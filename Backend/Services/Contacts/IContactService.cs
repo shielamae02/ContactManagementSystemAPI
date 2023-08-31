@@ -1,6 +1,5 @@
 ﻿using Backend.Entities;
 using Backend.Models.Contacts;
-using Microsoft.AspNetCore.JsonPatch;
 
 namespace Backend.Services.Contacts
 {
@@ -50,7 +49,5 @@ namespace Backend.Services.Contacts
         /// <param name="updateContact">The updated contact data transfer object.</param>
         /// <returns>Contact data transfer object if update is successful, otherwise null.</returns>
         Task<ContactDto> UpdateContact(int userId, int contactId, UpdateContactDto updateContact);
-
-        Task<bool> UpdateContactProperty(User user, int contactId, JsonPatchDocument<Contact> request);
     }
 }

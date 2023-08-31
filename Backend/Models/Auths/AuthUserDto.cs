@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Backend.Models.Auths
+﻿namespace Backend.Models.Auths
 {
     public class AuthUserDto
     {
