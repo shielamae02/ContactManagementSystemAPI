@@ -1,6 +1,4 @@
-﻿using Backend.Entities;
-
-namespace Backend.Models.Contacts
+﻿namespace Backend.Models.Contacts
 {
     public class ContactDto
     {

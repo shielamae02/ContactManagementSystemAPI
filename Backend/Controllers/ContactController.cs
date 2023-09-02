@@ -1,12 +1,10 @@
 ﻿using Backend.Data;
-using Backend.Entities;
 using Backend.Exceptions.ContactNumbers;
 using Backend.Exceptions.Contacts;
 using Backend.Models.Contacts;
 using Backend.Services.Contacts;
 using Backend.Services.Users;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Controllers
@@ -119,30 +117,20 @@ namespace Backend.Controllers
         /// 
         ///     POST /api/contacts
         ///     {
-        ///         "firstName": "Rosa",
-        ///         "lastName": "Diaz",
-        ///         "emailAddress": "rosadiaz@example.com",
-        ///         "createdAt": "2023-08-15T02:17:55.868Z",
-        ///         "contactNumbers": [
-        ///         {
-        ///             "id": 0,
-        ///             "contactId": 0,
-        ///             "number": "0912345789",
-        ///             "label": "Globe",
-        ///             "createdAt": "2023-08-15T02:17:55.868Z",
-        ///             "updatedAt": "2023-08-15T02:17:55.868Z"
-        ///         }
-        ///         ],
-        ///         addresses": [
-        ///         {
-        ///             "id": 0,
-        ///             "contactId": 0,
-        ///             "details": "Cebu City",
-        ///             "label": "Home",
-        ///             "createdAt": "2023-08-15T02:17:55.868Z",
-        ///             "updatedAt": "2023-08-15T02:17:55.868Z"
-        ///             }
-        ///         ]
+        ///         "firstName": "Selena",
+        ///         "lastName": "Gomez",
+        ///         "emailAddress": "selenagomez@example.com",
+        ///         "favorite": false,
+        ///         "contactNumber1": "09123456789",
+        ///         "numberLabel1": "Phone",
+        ///         "contactNumber2": "09123456789",
+        ///         "numberLabel2": "Phone",
+        ///         "contactNumber3": "09123456789",
+        ///         "numberLabel3": "Phone",
+        ///         "addressDetails1: "Cebu City",
+        ///         "addressLabel1": "Home",
+        ///         "addressDetails2: "Cebu City",
+        ///         "addressLabel2": "Home"
         ///     }
         /// </remarks>
         [HttpPost]
@@ -171,7 +159,7 @@ namespace Backend.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Something went wrong.");
-                return StatusCode(500, "Something went wrong.");
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -220,9 +208,9 @@ namespace Backend.Controllers
         /// 
         ///     PUT /api/contacts/{contactId}
         ///     {
-        ///         "firstName": "Rose",
-        ///         "lastName": "Diaz",
-        ///         "emailAddress": "rosie@example.com"
+        ///         "firstName": "Selena Marie",
+        ///         "lastName": "Gomez",
+        ///         "emailAddress": "selenag@example.com"
         ///     }
         /// </remarks>
         /// <returns>The updated contact information if successful, or an error response.</returns>
@@ -252,37 +240,6 @@ namespace Backend.Controllers
                 return StatusCode(500, "Something went wrong.");
             }
         }
-
-
-        [HttpPatch("{contactId}")]
-        [Produces("application/json")]
-        [Consumes("application/json")]
-        [ProducesResponseType(typeof(ContactDto), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateContactProperty([FromRoute] int contactId, [FromBody]JsonPatchDocument<Contact> request)
-        {
-            try
-            {
-                var userId = await _userService.GetUserId();
-                var user = await _userService.GetUserById(userId);
-                var contact = await _contactService.UpdateContactProperty(user, contactId, request);
-                return Ok(contact);
-            }
-            catch (ContactUpdateFailedException ex)
-            {
-                _logger.LogError(ex, "Contact update failed.");
-                return BadRequest(ex.Message);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Something went wrong.");
-                return StatusCode(500, "Something went wrong.");
-            }
-        }
-
-
-
 
     }
 }

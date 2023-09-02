@@ -1,5 +1,4 @@
 ﻿using Backend.Entities;
-using Backend.Models.Auths;
 
 namespace Backend.Repositories.Users
 {

@@ -50,13 +50,13 @@ namespace Backend.Controllers
             try
             {
                 var user = await _userService.GetUserById(_userId);
-                if(user is null)
+                if (user is null)
                 {
                     return NotFound("User details not found.");
                 }
                 return Ok(user);
             }
-            catch(UserNotFoundException ex)
+            catch (UserNotFoundException ex)
             {
                 _logger.LogError(ex, "User not found.");
                 return NotFound(ex.Message);
@@ -89,7 +89,7 @@ namespace Backend.Controllers
                 }
                 return Ok("Successfully deleted user.");
             }
-            catch(UserDeletionFailedException ex)
+            catch (UserDeletionFailedException ex)
             {
                 _logger.LogError(ex, "An error occurred while attempting to delete the user.");
                 return BadRequest(ex.Message);
@@ -112,9 +112,9 @@ namespace Backend.Controllers
         /// 
         ///     PUT /api/user
         ///     {
-        ///         "firstName" : "Levi",
-        ///         "lastName" : "Ackerman",
-        ///         "userName" : "leviAckerman"
+        ///         "firstName" : "Taylor",
+        ///         "lastName" : "Swift",
+        ///         "userName" : "taylorswift_"
         ///     }
         /// </remarks>
         [HttpPut]

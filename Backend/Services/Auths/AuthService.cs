@@ -24,6 +24,7 @@ namespace Backend.Services.Auths
         /// <param name="mapper">The AutoMapper instance.</param>
         /// <param name="configuration">The configuration.</param>
         /// <param name="userService">The user service.</param>
+        /// <param name="userAuditService">The user audit service.</param>
         public AuthService(IMapper mapper, IConfiguration configuration, IUserService userService, IUserAuditService userAuditService)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -85,7 +86,7 @@ namespace Backend.Services.Auths
             response.Token = TokenBuilder.AccessToken(_configuration, newUser);
 
             await _userAuditService.UserAuthenticationAudit(
-                user,
+                newUser,
                 $"User {user.FirstName} {user.LastName} created an account.",
                 "Sign up"
             );

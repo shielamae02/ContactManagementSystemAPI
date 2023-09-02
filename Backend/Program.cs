@@ -14,17 +14,12 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Reflection;
 using System.Text;
-using System.Text.Json;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
-
-
-
-
 
 builder.Services.AddEndpointsApiExplorer();
 
@@ -58,10 +53,11 @@ builder.Services.AddSwaggerGen(options =>
 // Configure CORS (Cross-Origin Resource Sharing) settings for the application.
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowSpecificOrigin",
+    options.AddDefaultPolicy(
         builder =>
         {
-            builder.WithOrigins("http://localhost:5173")
+            builder
+            .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
         });
@@ -72,6 +68,12 @@ ConfigureServices(builder.Services);
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<DataContext>();
+    db.Initialize();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -79,20 +81,28 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("AllowSpecificOrigin");
+// Enable UseCors()
+app.UseCors();
 
+// Redirect HTTP requests to HTTPS
 app.UseHttpsRedirection();
+
 app.UseAuthentication();
+
 app.UseAuthorization();
+
+// Map controllers
 app.MapControllers();
 
+
+// Run the application s
 app.Run();
 
 
 void ConfigureServices(IServiceCollection services)
 {
     //Register the DBContext
-    services.AddDbContext<DataContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    services.AddDbContext<DataContext>(options => options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
     //Register JWT Authentication
     services.AddAuthentication().AddJwtBearer(

@@ -18,7 +18,7 @@ namespace Backend.Repositories.Contacts
         /// <param name="context">The data context.</param>
         public ContactRepository(DataContext context)
         {
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         /// <inheritdoc/>
@@ -41,7 +41,16 @@ namespace Backend.Repositories.Contacts
             }
 
             db.Remove(contact);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occurred while saving changes:");
+                Console.WriteLine(ex.ToString());
+            }
+
             return true;
         }
 
@@ -77,9 +86,9 @@ namespace Backend.Repositories.Contacts
             contact.FirstName = updateContact.FirstName;
             contact.LastName = updateContact.LastName;
             contact.Favorite = updateContact.Favorite;
-            contact.ContactNumber1  = updateContact.ContactNumber1;
-            contact.ContactNumber2  = updateContact.ContactNumber2;
-            contact.ContactNumber3  = updateContact.ContactNumber3;
+            contact.ContactNumber1 = updateContact.ContactNumber1;
+            contact.ContactNumber2 = updateContact.ContactNumber2;
+            contact.ContactNumber3 = updateContact.ContactNumber3;
             contact.NumberLabel1 = updateContact.NumberLabel1;
             contact.NumberLabel2 = updateContact.NumberLabel2;
             contact.NumberLabel3 = updateContact.NumberLabel3;
@@ -96,7 +105,7 @@ namespace Backend.Repositories.Contacts
             return true;
         }
 
-        
+
         /// <inheritdoc />
         public async Task<bool> UpdateContactProperty(Contact contact, JsonPatchDocument<Contact> request)
         {
