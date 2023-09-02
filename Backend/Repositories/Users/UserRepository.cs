@@ -65,7 +65,6 @@ namespace Backend.Repositories.Users
             var user = await _context.Users.FirstOrDefaultAsync(c => c.Id == updatedUser.Id);
             if (user is null)
             {
-                throw new Exception("Error!");
                 return false;
             }
 

@@ -117,9 +117,9 @@ namespace Backend.Controllers
         /// 
         ///     POST /api/contacts
         ///     {
-        ///         "firstName": "Hello",
-        ///         "lastName": "World",
-        ///         "emailAddress": "helloworld@example.com",
+        ///         "firstName": "Selena",
+        ///         "lastName": "Gomez",
+        ///         "emailAddress": "selenagomez@example.com",
         ///         "favorite": false,
         ///         "contactNumber1": "09123456789",
         ///         "numberLabel1": "Phone",
@@ -208,9 +208,9 @@ namespace Backend.Controllers
         /// 
         ///     PUT /api/contacts/{contactId}
         ///     {
-        ///         "firstName": "Hello",
-        ///         "lastName": "World",
-        ///         "emailAddress": "hello_world@example.com"
+        ///         "firstName": "Selena Marie",
+        ///         "lastName": "Gomez",
+        ///         "emailAddress": "selenag@example.com"
         ///     }
         /// </remarks>
         /// <returns>The updated contact information if successful, or an error response.</returns>

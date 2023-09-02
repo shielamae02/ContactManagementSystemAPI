@@ -112,9 +112,9 @@ namespace Backend.Controllers
         /// 
         ///     PUT /api/user
         ///     {
-        ///         "firstName" : "Hello",
-        ///         "lastName" : "World",
-        ///         "userName" : "hello_world"
+        ///         "firstName" : "Taylor",
+        ///         "lastName" : "Swift",
+        ///         "userName" : "taylorswift_"
         ///     }
         /// </remarks>
         [HttpPut]

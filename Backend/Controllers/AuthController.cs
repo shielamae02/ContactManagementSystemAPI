@@ -37,8 +37,8 @@ namespace Backend.Controllers
         /// 
         ///     POST /api/auth/login
         ///     {
-        ///         "emailAddress" : "hello@example.com",
-        ///         "password" : "helloworld"
+        ///         "emailAddress" : "taylorswift@example.com",
+        ///         "password" : "taylorswift13"
         ///     }
         /// </remarks>
         [HttpPost("login")]
@@ -87,12 +87,12 @@ namespace Backend.Controllers
         ///
         ///     POST /api/auth/register
         ///     {
-        ///         "firstName": "Hello",
-        ///         "lastName": "World",
-        ///         "userName": "hello_world",
-        ///          "emailAddress": "helloworld@example.com",
-        ///         "password": "helloworld!!",
-        ///         "confirmPassword": "helloworld!!"
+        ///         "firstName": "Taylor",
+        ///         "lastName": "Swift",
+        ///         "userName": "taylorswift",
+        ///          "emailAddress": "taylorswift@example.com",
+        ///         "password": "taylorswift!!",
+        ///         "confirmPassword": "taylorswift!!"
         ///     }
         /// </remarks>
         [HttpPost("register")]
